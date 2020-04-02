@@ -11,7 +11,19 @@
               <v-list-item-subtitle>{{ myArticle.body }}</v-list-item-subtitle>
             </v-list-item-content>
             </v-list-item>
-            
+
+            <v-card-actions>
+
+              <v-btn icon>
+                <v-icon
+                color="error" @click="$emit('deleteArticle' , myArticle.id)"
+                >
+                mdi-delete
+                </v-icon>
+              </v-btn>
+
+            </v-card-actions>
+
           </v-card>
         </v-row>
       </v-container>

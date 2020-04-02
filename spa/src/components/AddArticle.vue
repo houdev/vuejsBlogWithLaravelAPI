@@ -14,7 +14,7 @@
         <v-col cols="10">
           <v-btn color="success"
           v-bind:disabled="title.length < 5" 
-          @click="addtodo">
+          @click="AddArticle">
             <v-icon>
                 mdi-plus
             </v-icon>
@@ -36,11 +36,12 @@ export default {
         }
     },
     methods:{
-    addtodo(){
+    AddArticle(){
         let newArticle = {
             id: Math.round(Math.random() *1000),
             title: this.title,
-            body: this.body
+            body: this.body,
+            createdDate: '01-4-2020'
         }
         this.$emit('newArticle' , newArticle);
         this.title = "";

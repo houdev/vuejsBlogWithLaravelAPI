@@ -6,8 +6,6 @@
       dark
     >
     <v-toolbar-title>Simple Blog</v-toolbar-title>
-
-      <v-spacer></v-spacer>
       
     </v-app-bar>
 
@@ -15,7 +13,9 @@
       <add-article
       @newArticle="addArticle"
        />
-      <articles :myArticls="myArticls" />
+
+      <articles :myArticls="myArticls" v-on:deleteArticle="deleteArticle"/>
+      
     </v-content>
   </v-app>
 </template>
@@ -58,6 +58,9 @@ export default {
   methods:{
     addArticle(newArticle){
       this.myArticls.push(newArticle);
+    },
+    deleteArticle(id){
+      this.myArticls = this.myArticls.filter(articls => articls.id !== id );
     },
   }
 };
