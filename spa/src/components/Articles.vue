@@ -1,7 +1,7 @@
 <template>
     <div>
 			<articles-list 
-			v-for="(myArticle, index) in myArticls" 
+			v-for="(myArticle, index) in myArticles" 
 			:key="index" 
 			:myArticle="myArticle"
 			@deleteArticle="$emit('deleteArticle' , myArticle.id)"
@@ -16,7 +16,7 @@ import ArticlesList from './ArticlesList.vue'
 export default {
     name:'Articles',
     props:{
-        'myArticls':Array,
+        'myArticles':Array,
     },
     components: {
     ArticlesList

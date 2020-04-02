@@ -14,7 +14,7 @@
       @newArticle="addArticle"
        />
 
-      <articles :myArticls="myArticls" v-on:deleteArticle="deleteArticle"/>
+      <articles :myArticles="myArticles" v-on:deleteArticle="deleteArticle"/>
       
     </v-content>
   </v-app>
@@ -33,7 +33,7 @@ export default {
   },
   data (){
     return {
-      myArticls:[
+      myArticles:[
         {
           id:1,
           title: 'What is Vuejs',
@@ -57,10 +57,10 @@ export default {
   },
   methods:{
     addArticle(newArticle){
-      this.myArticls.push(newArticle);
+      this.myArticles.push(newArticle);
     },
     deleteArticle(id){
-      this.myArticls = this.myArticls.filter(articls => articls.id !== id );
+      this.myArticles = this.myArticles.filter(articls => articls.id !== id );
     },
   }
 };
