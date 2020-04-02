@@ -1,7 +1,10 @@
 <template>
     <div>
-        <h2>Articles test</h2>
-        <articles-list />
+			<articles-list 
+			v-for="(myArticle, index) in myArticls" 
+			:key="index" 
+			:myArticle="myArticle"
+				/>
     </div>
 </template>
 
@@ -11,6 +14,9 @@ import ArticlesList from './ArticlesList.vue'
 
 export default {
     name:'Articles',
+    props:{
+        'myArticls':Array,
+    },
     components: {
     ArticlesList
   },
