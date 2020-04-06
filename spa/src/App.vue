@@ -1,67 +1,73 @@
 <template>
-  <v-app>
-    <v-app-bar
+<v-app>
+  <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list dense>
+        <v-list-item to="/">
+          <v-list-item-action>
+            <v-icon>mdi-folder-pound-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/about">
+          <v-list-item-action>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+       
+      </v-list>
+    </v-navigation-drawer>
+  <v-app-bar
       app
       color="primary"
       dark
-    >
+  >
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title>Simple Blog</v-toolbar-title>
       
-    </v-app-bar>
-
-    <v-content>
-      <add-article
-      @newArticle="addArticle"
-       />
-
-      <articles :myArticles="myArticles" v-on:deleteArticle="deleteArticle"/>
-      
-    </v-content>
-  </v-app>
+  </v-app-bar>
+     <v-content>
+      <div id="app">
+        <router-view/>
+      </div>
+     </v-content>
+</v-app>
 </template>
 
 <script>
-import AddArticle from './components/AddArticle.vue'
-import Articles from './components/Articles.vue'
-
 export default {
-  name: 'App',
+  name: "App",
+  data: () => ({
+    drawer: null,
+  }),
 
-  components: {
-    AddArticle,
-    Articles
-  },
-  data (){
-    return {
-      myArticles:[
-        {
-          id:1,
-          title: 'What is Vuejs',
-          body:'vuejs is great framework',
-          createdDate: '10-1-2020'
-        },
-        {
-          id:2,
-          title: 'about Vuejs',
-          body:'vuejs is powerful',
-          createdDate: '15-3-2020'
-        },
-        {
-          id:3,
-          title: 'Build An App with vuejs',
-          body:'creating apps with vusjs is easy',
-          createdDate: '30-3-2020'
-        }
-      ]
-    }
-  },
-  methods:{
-    addArticle(newArticle){
-      this.myArticles.push(newArticle);
-    },
-    deleteArticle(id){
-      this.myArticles = this.myArticles.filter(articls => articls.id !== id );
-    },
-  }
 };
 </script>
+
+
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+</style>
