@@ -1,5 +1,5 @@
 <?php
-
+use \App\Article;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +13,15 @@
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('addarticle', function () {
+
+    //Add new Article
+
+    // $newArticle = new Article();
+
+    // $newArticle->title = 'Learning Vuejs Is Fun';
+    // $newArticle->body = 'I Love Learning Vuejs';
+    // $newArticle->save();
 });

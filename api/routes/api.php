@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use \App\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,16 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('articles', function(){
+    $articles = Article::all();
+
+    return $articles;
+});
+
+Route::get('articles/{id}', function($id){
+    $articles = Article::find($id);
+
+    return $articles;
 });
