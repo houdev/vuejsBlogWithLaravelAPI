@@ -4,6 +4,7 @@
 			v-for="(myArticle, index) in myArticles" 
 			:key="index" 
 			:myArticle="myArticle"
+            :currentIndex="index"
 			@deleteArticle="$emit('deleteArticle' , myArticle.id)"
 				/>
     </div>
