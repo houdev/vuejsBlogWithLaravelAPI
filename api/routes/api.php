@@ -45,3 +45,14 @@ Route::post('articles', function(Request $request){
     $latestArticles = DB::table('articles')->latest()->first();
     return json_encode($latestArticles);
 });
+
+Route::post('articles/{id}', function($id){
+
+    //delete Article
+    $deleteArticle = Article::find($id);
+    $deleteArticle->delete();
+
+    //Return new articles list after the delete
+    $articles = Article::all();
+    return $articles;
+});
