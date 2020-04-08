@@ -38,10 +38,8 @@ export default {
     methods:{
     AddArticle(){
         let newArticle = {
-            id: Math.round(Math.random() *1000),
             title: this.title,
             body: this.body,
-            createdDate: '01-4-2020'
         }
         this.$emit('newArticle' , newArticle);
         this.title = "";
