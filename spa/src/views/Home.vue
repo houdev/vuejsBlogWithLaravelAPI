@@ -39,7 +39,10 @@ export default {
 
     },
     deleteArticle(id){
-      this.myArticles = this.myArticles.filter(articles => articles.id !== id );
+      
+      axios.post(`http://127.0.0.1:8000/api/articles/${id}`)
+        .then(result => this.myArticles = result.data )
+        .catch(error => console.log(error) );
     },
   },
   created(){
