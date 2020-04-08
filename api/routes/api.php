@@ -32,7 +32,7 @@ Route::get('articles/{id}', function($id){
 
     return $articles;
 });
-Route::post('articles', function(Request $request){
+Route::post('articles/add', function(Request $request){
 
     //Add new Article
     $newArticle = new Article();
@@ -46,7 +46,7 @@ Route::post('articles', function(Request $request){
     return json_encode($latestArticles);
 });
 
-Route::post('articles/{id}', function($id){
+Route::post('articles/delete/{id}', function($id){
 
     //delete Article
     $deleteArticle = Article::find($id);
