@@ -15,7 +15,7 @@
             <div v-if="showEdit">
               <v-text-field 
               label="Title" 
-              v-model="myArticle.title"
+              v-model="currentTitle"
               >
               </v-text-field>
               <v-textarea
@@ -46,7 +46,7 @@
               </v-btn>
               <v-btn icon v-if="showEdit">
                 <v-icon
-                color="green" @click="showEdit = false"
+                color="green" @click="UpdateMyArticle(myArticle.id)"
                 >
                 mdi-floppy
                 </v-icon>
@@ -66,7 +66,20 @@ export default {
     props:['myArticle','currentIndex'],
     data(){
       return{
-        showEdit:false
+        showEdit:false,
+        currentTitle:this.myArticle.title,
+        currentBody:this.myArticle.body,
+      }
+    },
+    methods:{
+      UpdateMyArticle(id){
+        let updatedArticle = {
+          title: this.currentTitle,
+          body: this.currentBody,
+        }
+        this.$emit('updateArticle', id, updatedArticle);
+
+        this.showEdit = false;
       }
     },
 }

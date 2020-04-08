@@ -4,7 +4,11 @@
       @newArticle="addArticle"
        />
 
-      <articles :myArticles="myArticles" v-on:deleteArticle="deleteArticle"/>
+      <articles 
+      :myArticles="myArticles" 
+      v-on:deleteArticle="deleteArticle"
+      v-on:updateArticle="updateMyArticle"
+      />
       
   </div>
 </template>
@@ -39,11 +43,20 @@ export default {
 
     },
     deleteArticle(id){
-      
       axios.post(`http://127.0.0.1:8000/api/articles/${id}`)
         .then(result => this.myArticles = result.data )
         .catch(error => console.log(error) );
     },
+    updateMyArticle(id, updatedArticle){
+      let { title, body} = updatedArticle
+
+      axios.post(`http://127.0.0.1:8000/api/articles/update/${id}`, {
+          title,
+          body
+      })
+        .then(result => this.myArticles = result.data )
+        .catch(error => console.log(error) );
+      }
   },
   created(){
     axios.get('http://127.0.0.1:8000/api/articles')

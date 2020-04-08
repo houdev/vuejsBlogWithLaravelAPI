@@ -6,6 +6,7 @@
 			:myArticle="myArticle"
             :currentIndex="index"
 			@deleteArticle="$emit('deleteArticle' , myArticle.id)"
+            @updateArticle="(id, updatedArticle) => $emit('updateArticle', id, updatedArticle)"
 				/>
     </div>
 </template>
