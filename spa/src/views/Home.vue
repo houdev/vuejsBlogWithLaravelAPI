@@ -34,7 +34,7 @@ export default {
     addArticle(newArticle){
       let { title, body } = newArticle;
       
-      axios.post('http://127.0.0.1:8000/api/articles', {
+      axios.post('http://127.0.0.1:8000/api/articles/add', {
           title,
           body
       })
@@ -43,7 +43,7 @@ export default {
 
     },
     deleteArticle(id){
-      axios.post(`http://127.0.0.1:8000/api/articles/${id}`)
+      axios.post(`http://127.0.0.1:8000/api/articles/delete/${id}`)
         .then(result => this.myArticles = result.data )
         .catch(error => console.log(error) );
     },
