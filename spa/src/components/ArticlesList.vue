@@ -19,7 +19,7 @@
               >
               </v-text-field>
               <v-textarea
-              v-model="myArticle.body"
+              v-model="currentBody"
               outlined
               name="bdoy"
               label="Bdoy"
