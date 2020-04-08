@@ -56,3 +56,17 @@ Route::post('articles/{id}', function($id){
     $articles = Article::all();
     return $articles;
 });
+
+Route::post('articles/update/{id}', function($id, Request $request){
+
+    //Update Article
+    $updateArticle = Article::find($id);
+    $updateArticle->title = $request->title;
+    $updateArticle->body  = $request->body;
+
+    $updateArticle->save();
+
+    //Return new articles list after the delete
+    $articles = Article::all();
+    return $articles;
+});
