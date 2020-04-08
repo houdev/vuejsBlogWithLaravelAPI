@@ -6,7 +6,7 @@
 
             <v-list-item three-line v-if="!showEdit" :to="'/ViewArticle/'+currentIndex">
               <v-list-item-content>
-                <div class="overline mb-4">{{ myArticle.createdDate }}</div>
+                <div class="overline mb-4">{{ myArticle.created_at }}</div>
                 <v-list-item-title  class="headline mb-1">{{ myArticle.title }}</v-list-item-title>
                 <v-list-item-subtitle>{{ myArticle.body }}</v-list-item-subtitle>
               </v-list-item-content>
