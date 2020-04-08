@@ -1,4 +1,7 @@
 <?php
+header('Access-Control-Allow-Origin : *');
+header('Access-Control-Allow-Headers : Content-Type,X-Auth-Token,Authorization,Origin');
+header('Access-Control-Allow-Methods :GET, POST, PUT, DELETE, OPTIONS');
 
 use Illuminate\Http\Request;
 use \App\Article;
@@ -28,4 +31,17 @@ Route::get('articles/{id}', function($id){
     $articles = Article::find($id);
 
     return $articles;
+});
+Route::post('articles', function(Request $request){
+
+    //Add new Article
+    $newArticle = new Article();
+
+    $newArticle->title = $request->title;
+    $newArticle->body = $request->body;
+    $newArticle->save();
+
+    //Return latest article after adding it
+    $latestArticles = DB::table('articles')->latest()->first();
+    return json_encode($latestArticles);
 });
