@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import {apiUrl} from '@/variables.js'
 import Articles from '../components/Articles.vue'
 import axios from 'axios'
 
@@ -28,14 +29,14 @@ export default {
   },
   methods:{
     deleteArticle(id){
-      axios.post(`http://127.0.0.1:8000/api/articles/delete/${id}`)
+      axios.post(`${apiUrl}/api/articles/delete/${id}`)
         .then(result => this.myArticles = result.data )
         .catch(error => console.log(error) );
     },
     updateMyArticle(id, updatedArticle){
       let { title, body} = updatedArticle
 
-      axios.post(`http://127.0.0.1:8000/api/articles/update/${id}`, {
+      axios.post(`${apiUrl}/api/articles/update/${id}`, {
           title,
           body
       })
@@ -44,7 +45,7 @@ export default {
       }
   },
   created(){
-    axios.get('http://127.0.0.1:8000/api/articles')
+    axios.get(`${apiUrl}/api/articles`)
       .then(result => this.myArticles = result.data)
       .catch(error => console.log(error))
   },

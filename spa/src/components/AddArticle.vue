@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import {apiUrl} from '@/variables.js'
 import Axios from 'axios';
 
 export default {
@@ -55,7 +56,7 @@ export default {
     methods:{
     AddArticle(){
        
-       Axios.post('http://127.0.0.1:8000/api/articles/add',{
+       Axios.post(`${apiUrl}/api/articles/add`,{
          title: this.title,
          body: this.body
        })

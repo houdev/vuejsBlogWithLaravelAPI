@@ -17,7 +17,7 @@
                 <v-divider class="mx-4"></v-divider>
 
                 <v-spacer></v-spacer>
-                
+
                 <v-list-item-text>{{ myArticle.body }}</v-list-item-text>
               </v-list-item-content>
             </v-list-item>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import {apiUrl} from '@/variables.js'
 import axios from 'axios'
 
 export default {
@@ -40,7 +41,7 @@ export default {
     }
   },
   created(){
-    axios.get(`http://127.0.0.1:8000/api/articles/${this.$route.params.id}`)
+    axios.get(`${apiUrl}/api/articles/${this.$route.params.id}`)
       .then(result => this.myArticle = result.data)
       .catch(error => console.log(error))
   },
