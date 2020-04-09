@@ -1,8 +1,6 @@
 <template>
   <div>
-      <add-article
-      @newArticle="addArticle"
-       />
+
 
       <articles 
       :myArticles="myArticles" 
@@ -14,7 +12,6 @@
 </template>
 
 <script>
-import AddArticle from '../components/AddArticle.vue'
 import Articles from '../components/Articles.vue'
 import axios from 'axios'
 
@@ -22,7 +19,6 @@ export default {
   name: 'Home',
 
   components: {
-    AddArticle,
     Articles
   },
   data (){
@@ -31,17 +27,6 @@ export default {
     }
   },
   methods:{
-    addArticle(newArticle){
-      let { title, body } = newArticle;
-      
-      axios.post('http://127.0.0.1:8000/api/articles/add', {
-          title,
-          body
-      })
-        .then(result => this.myArticles = [...this.myArticles, result.data])
-        .catch(error => console.log(error) );
-
-    },
     deleteArticle(id){
       axios.post(`http://127.0.0.1:8000/api/articles/delete/${id}`)
         .then(result => this.myArticles = result.data )

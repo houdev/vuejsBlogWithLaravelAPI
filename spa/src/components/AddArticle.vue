@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import Axios from 'axios';
 
 export default {
     name:'AddArticle',
@@ -37,11 +38,15 @@ export default {
     },
     methods:{
     AddArticle(){
-        let newArticle = {
-            title: this.title,
-            body: this.body,
-        }
-        this.$emit('newArticle' , newArticle);
+       
+       Axios.post('http://127.0.0.1:8000/api/articles/add',{
+         title: this.title,
+         body: this.body
+       })
+          .then(result => console.log(result))
+          .catch(error => console.log(error));
+       
+        //empty the fields after the add
         this.title = "";
         this.body = "";
     },
