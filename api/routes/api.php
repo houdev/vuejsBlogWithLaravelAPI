@@ -41,9 +41,11 @@ Route::post('articles/add', function(Request $request){
     $newArticle->body = $request->body;
     $newArticle->save();
 
-    //Return latest article after adding it
-    $latestArticles = DB::table('articles')->latest()->first();
-    return json_encode($latestArticles);
+    //Return success message after adding it
+    
+    return response()->json([
+        "message" => "Article Has Been Added Successfully"
+    ]);
 });
 
 Route::post('articles/delete/{id}', function($id){
@@ -66,7 +68,7 @@ Route::post('articles/update/{id}', function($id, Request $request){
 
     $updateArticle->save();
 
-    //Return new articles list after the delete
+    //Return new articles list after the update
     $articles = Article::all();
     return $articles;
 });
