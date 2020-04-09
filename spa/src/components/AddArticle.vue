@@ -1,5 +1,19 @@
 <template>
     <div>
+      <v-snackbar
+        v-model="snackbar"
+        right
+        color="success"
+      >
+      {{ successMessage }}
+      <v-btn
+        color="whiet"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
       <v-row justify="center" align="center">
         <v-col cols="10">
           <v-text-field label="Title" v-model="title"></v-text-field>
@@ -34,6 +48,8 @@ export default {
         return {
             title: "",
             body: "",
+            snackbar:false,
+            successMessage:null
         }
     },
     methods:{
@@ -43,7 +59,7 @@ export default {
          title: this.title,
          body: this.body
        })
-          .then(result => console.log(result))
+          .then(result => this.successMessage = result.data.message, this.snackbar=true)
           .catch(error => console.log(error));
        
         //empty the fields after the add
