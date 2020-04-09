@@ -31,7 +31,7 @@
 
               <v-btn icon>
                 <v-icon
-                color="error" @click="showDialog = true"
+                color="error" @click="showDeleteDialog = true"
                 >
                 mdi-delete
                 </v-icon>
@@ -57,7 +57,7 @@
           </v-card>
         </v-row>
       <v-dialog
-        v-model="showDialog"
+        v-model="showDeleteDialog"
         max-width="290"
       >
         <v-card>
@@ -73,7 +73,7 @@
             <v-btn
               color="green darken-1"
               text
-              @click="showDialog = false"
+              @click="showDeleteDialog = false"
             >
               No
             </v-btn>
@@ -99,7 +99,7 @@ export default {
     data(){
       return{
         showEdit:false,
-        showDialog:false,
+        showDeleteDialog:false,
         currentTitle:this.myArticle.title,
         currentBody:this.myArticle.body,
       }
@@ -119,7 +119,7 @@ export default {
          this.$emit('deleteArticle' , myArticleId);
 
          //close dialog
-         this.showDialog = false;
+         this.showDeleteDialog = false;
         
       },
     },
