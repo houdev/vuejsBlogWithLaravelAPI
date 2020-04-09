@@ -4,9 +4,9 @@
 			v-for="(myArticle, index) in myArticles" 
 			:key="index" 
 			:myArticle="myArticle"
-            :currentIndex="index"
+      :currentIndex="index"
 			@deleteArticle="$emit('deleteArticle' , myArticle.id)"
-            @updateArticle="(id, updatedArticle) => $emit('updateArticle', id, updatedArticle)"
+      @updateArticle="(id, updatedArticle) => $emit('updateArticle', id, updatedArticle)"
 				/>
     </div>
 </template>

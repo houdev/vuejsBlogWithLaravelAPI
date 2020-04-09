@@ -31,7 +31,7 @@
 
               <v-btn icon>
                 <v-icon
-                color="error" @click="$emit('deleteArticle' , myArticle.id)"
+                color="error" @click="showDialog = true"
                 >
                 mdi-delete
                 </v-icon>
@@ -56,6 +56,38 @@
 
           </v-card>
         </v-row>
+      <v-dialog
+        v-model="showDialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">Delete This Article!</v-card-title>
+
+          <v-card-text>
+            Do You Want To Delete This Article?
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="showDialog = false"
+            >
+              No
+            </v-btn>
+
+            <v-btn
+              color="green darken-1"
+              text
+              @click="deleteArticle(myArticle.id)"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       </v-container>
     </div>
 </template>
@@ -67,6 +99,7 @@ export default {
     data(){
       return{
         showEdit:false,
+        showDialog:false,
         currentTitle:this.myArticle.title,
         currentBody:this.myArticle.body,
       }
@@ -80,7 +113,15 @@ export default {
         this.$emit('updateArticle', id, updatedArticle);
 
         this.showEdit = false;
-      }
+      },
+      deleteArticle(myArticleId){
+        
+         this.$emit('deleteArticle' , myArticleId);
+
+         //close dialog
+         this.showDialog = false;
+        
+      },
     },
 }
 </script>
