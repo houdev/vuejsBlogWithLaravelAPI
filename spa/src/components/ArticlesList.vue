@@ -4,7 +4,7 @@
         <v-row justify="center" align="center">
           <v-card width="85%">
 
-            <v-list-item three-line :to="'/ViewArticle/'+currentIndex">
+            <v-list-item three-line :to="'/ViewArticle/'+myArticle.id">
               <v-list-item-content>
                 <div class="overline mb-4">{{ myArticle.created_at }}</div>
                 <v-list-item-title  class="headline mb-1">{{ myArticle.title }}</v-list-item-title>

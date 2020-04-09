@@ -13,7 +13,7 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/ViewArticle/:index',
+    path: '/ViewArticle/:id',
     name: 'ViewArticle',
     component: ViewArticle
   },
