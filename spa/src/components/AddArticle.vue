@@ -6,14 +6,14 @@
         color="success"
       >
       {{ successMessage }}
-      <v-btn
-        color="whiet"
-        text
-        @click="snackbar = false"
-      >
+        <v-btn
+          color="whiet"
+          text
+          @click="snackbar = false"
+        >
         Close
-      </v-btn>
-    </v-snackbar>
+        </v-btn>
+      </v-snackbar>
       <v-row justify="center" align="center">
         <v-col cols="10">
           <v-text-field label="Title" v-model="title"></v-text-field>

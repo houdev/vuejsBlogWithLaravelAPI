@@ -7,6 +7,21 @@
       v-on:deleteArticle="deleteArticle"
       v-on:updateArticle="updateMyArticle"
       />
+
+      <v-snackbar
+        v-model="snackbar"
+        right
+        color="success"
+      >
+      {{ successMessage }}
+        <v-btn
+          color="whiet"
+          text
+          @click="snackbar = false"
+        >
+        Close
+        </v-btn>
+      </v-snackbar>
       
   </div>
 </template>
@@ -24,13 +39,17 @@ export default {
   },
   data (){
     return {
-      myArticles:[]
+      myArticles:[],
+      snackbar:false,
+      successMessage:null
     }
   },
   methods:{
     deleteArticle(id){
       axios.post(`${apiUrl}/api/articles/delete/${id}`)
-        .then(result => this.myArticles = result.data )
+        .then(result => this.myArticles = result.data, 
+                        this.successMessage = "Article Has Been Deleted Successfully", 
+                        this.snackbar = true )
         .catch(error => console.log(error) );
     },
     updateMyArticle(id, updatedArticle){
@@ -40,7 +59,9 @@ export default {
           title,
           body
       })
-        .then(result => this.myArticles = result.data )
+        .then(result => this.myArticles = result.data, 
+                        this.successMessage = "Article Has Been Updated Successfully", 
+                        this.snackbar = true )
         .catch(error => console.log(error) );
       }
   },
