@@ -1,6 +1,20 @@
 <template>
   <div>
-
+      <v-card class="ma-9">
+      <v-row justify="space-between">
+        <v-col cols="6">
+          <h2>Articles: <span class="blue--text">{{ myArticles.length }}</span></h2>
+        </v-col>
+        <v-col cols="6">
+          <v-btn color="success" to="/AddArticle">
+            <v-icon>
+              mdi-plus
+            </v-icon>
+            Add New Article
+          </v-btn>
+        </v-col>
+      </v-row>
+      </v-card>
 
       <articles 
       :myArticles="myArticles" 
