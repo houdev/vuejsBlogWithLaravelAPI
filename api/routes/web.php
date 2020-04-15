@@ -25,3 +25,11 @@ Route::get('addarticle', function () {
     // $newArticle->body = 'I Love Learning Vuejs';
     // $newArticle->save();
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('admin', function(){
+    return 'hello Admin !';
+})->middleware('auth.admin');

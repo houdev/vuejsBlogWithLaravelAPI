@@ -21,11 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('login', 'APILoginController@login');
+
 Route::get('articles', function(){
     $articles = Article::all();
 
     return $articles;
-});
+
+})->middleware('auth.admin');
 
 Route::get('articles/{id}', function($id){
     $articles = Article::find($id);
