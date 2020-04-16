@@ -23,55 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'APILoginController@login');
 
-Route::get('articles', function(){
-    $articles = Article::all();
-
-    return $articles;
-
-})->middleware('auth.admin');
-
-Route::get('articles/{id}', function($id){
-    $articles = Article::find($id);
-
-    return $articles;
-});
-Route::post('articles/add', function(Request $request){
-
-    //Add new Article
-    $newArticle = new Article();
-
-    $newArticle->title = $request->title;
-    $newArticle->body = $request->body;
-    $newArticle->save();
-
-    //Return success message after adding it
-    
-    return response()->json([
-        "message" => "Article Has Been Added Successfully"
-    ]);
-});
-
-Route::post('articles/delete/{id}', function($id){
-
-    //delete Article
-    $deleteArticle = Article::find($id);
-    $deleteArticle->delete();
-
-    //Return new articles list after the delete
-    $articles = Article::all();
-    return $articles;
-});
-
-Route::post('articles/update/{id}', function($id, Request $request){
-
-    //Update Article
-    $updateArticle = Article::find($id);
-    $updateArticle->title = $request->title;
-    $updateArticle->body  = $request->body;
-
-    $updateArticle->save();
-
-    //Return new articles list after the update
-    $articles = Article::all();
-    return $articles;
-});
+Route::get('articles', 'ArticlesController@view');
+Route::get('articles/{id}', 'ArticlesController@showById');
+Route::post('articles/add', 'ArticlesController@store');
+Route::post('articles/update/{id}', 'ArticlesController@destroy');
+Route::post('articles/delete/{id}', 'ArticlesController@destroy');
