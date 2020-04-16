@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
+use JWTAuth;
 
 class ArticlesController extends Controller
 {
@@ -19,10 +20,15 @@ class ArticlesController extends Controller
 
     public function store(Request $request)
     {
+        $CurrentUser = JWTAuth::parseToken()->authenticate();
+        
+        $this->authorize('create', Article::class);
+
         $newArticle = new Article();
 
         $newArticle->title = $request->title;
         $newArticle->body = $request->body;
+        $newArticle->user_id = $CurrentUser->id;
         $newArticle->save();
 
         //Return success message after adding new article
