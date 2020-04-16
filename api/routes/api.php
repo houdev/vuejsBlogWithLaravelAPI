@@ -4,7 +4,6 @@ header('Access-Control-Allow-Headers : Content-Type,X-Auth-Token,Authorization,O
 header('Access-Control-Allow-Methods :GET, POST, PUT, DELETE, OPTIONS');
 
 use Illuminate\Http\Request;
-use \App\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +25,5 @@ Route::post('login', 'APILoginController@login');
 Route::get('articles', 'ArticlesController@view');
 Route::get('articles/{id}', 'ArticlesController@showById');
 Route::post('articles/add', 'ArticlesController@store');
-Route::post('articles/update/{id}', 'ArticlesController@destroy');
+Route::post('articles/update/{id}', 'ArticlesController@update');
 Route::post('articles/delete/{id}', 'ArticlesController@destroy');
