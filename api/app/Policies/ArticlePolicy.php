@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class ArticlePolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any articles.
      *
@@ -53,7 +53,13 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article)
     {
-        //
+        if($user->hasAnyRole('admin')){
+            return true;
+        }else if($user->hasAnyRole('author')){
+            return $user->id == $article->user_id;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +71,13 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article)
     {
-        //
+        if($user->hasAnyRole('admin')){
+            return true;
+        }else if($user->hasAnyRole('author')){
+            return $user->id == $article->user_id;
+        }
+
+        return false;
     }
 
     /**

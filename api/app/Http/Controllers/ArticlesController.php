@@ -21,7 +21,7 @@ class ArticlesController extends Controller
     public function store(Request $request)
     {
         $CurrentUser = JWTAuth::parseToken()->authenticate();
-        
+
         $this->authorize('create', Article::class);
 
         $newArticle = new Article();
@@ -39,7 +39,12 @@ class ArticlesController extends Controller
 
     public function update($id, Request $request)
     {
+        JWTAuth::parseToken()->authenticate();
+
         $updateArticle = Article::find($id);
+
+        $this->authorize('update', $updateArticle);
+
         $updateArticle->title = $request->title;
         $updateArticle->body  = $request->body;
 
@@ -51,7 +56,12 @@ class ArticlesController extends Controller
 
     public function destroy($id)
     {
+        JWTAuth::parseToken()->authenticate();
+
         $deleteArticle = Article::find($id);
+
+        $this->authorize('delete', $deleteArticle);
+
         $deleteArticle->delete();
 
         //Return new articles list after the delete
