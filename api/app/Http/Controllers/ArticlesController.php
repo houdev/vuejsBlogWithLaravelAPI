@@ -18,6 +18,14 @@ class ArticlesController extends Controller
         return Article::find($id);
     }
 
+    public function myArticles()
+    {
+        $CurrentUser = JWTAuth::parseToken()->authenticate();
+
+        return Article::where('user_id', $CurrentUser->id)->get();
+
+    }
+
     public function store(Request $request)
     {
         $CurrentUser = JWTAuth::parseToken()->authenticate();

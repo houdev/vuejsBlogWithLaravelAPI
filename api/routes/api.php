@@ -24,6 +24,7 @@ Route::post('login', 'APILoginController@login');
 
 Route::get('articles', 'ArticlesController@view');
 Route::get('articles/{id}', 'ArticlesController@showById');
+Route::get('myarticles', 'ArticlesController@myArticles');
 Route::post('articles/add', 'ArticlesController@store');
 Route::post('articles/update/{id}', 'ArticlesController@update');
 Route::post('articles/delete/{id}', 'ArticlesController@destroy');
