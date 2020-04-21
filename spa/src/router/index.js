@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ViewArticle from '../views/ViewArticle.vue'
 import AddArticle from '../components/AddArticle.vue'
+import dashboard from '../dashboard/index.vue'
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,12 @@ Vue.use(VueRouter)
     path: '/AddArticle',
     name: 'AddArticle',
     component: AddArticle
-  }
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: dashboard
+  },
 ]
 
 const router = new VueRouter({

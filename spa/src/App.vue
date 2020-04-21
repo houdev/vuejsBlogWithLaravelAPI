@@ -1,40 +1,10 @@
 <template>
 <v-app>
-  <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
-        <v-list-item to="/">
-          <v-list-item-action>
-            <v-icon>mdi-folder-pound-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/AddArticle">
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Add Article</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-       
-      </v-list>
-    </v-navigation-drawer>
-  <v-app-bar
-      app
-      color="primary"
-      dark
-  >
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    <v-toolbar-title>Simple Blog</v-toolbar-title>
-      
-  </v-app-bar>
-     <v-content>
-      <div id="app">
-        <router-view/>
-      </div>
-     </v-content>
+    <v-content>
+    <div id="app">
+      <router-view/>
+    </div>
+    </v-content>
 </v-app>
 </template>
 
