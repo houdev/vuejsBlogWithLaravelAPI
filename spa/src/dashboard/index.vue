@@ -29,7 +29,7 @@
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title>Simple Blog</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn icon @click="logoutDialog = true">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
   </v-app-bar>
@@ -39,7 +39,40 @@
       <router-view/>
     </div>
   </v-content>
-  
+
+  <v-dialog
+    v-model="logoutDialog"
+    max-width="290"
+  >
+    <v-card>
+      <v-card-title class="headline">Log-out ?</v-card-title>
+
+      <v-card-text>
+        Are You Sure, Do You Want To Log-out ?
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn
+          color="green darken-1"
+          text
+          @click="logoutDialog = false"
+        >
+          Cancel
+        </v-btn>
+
+        <v-btn
+          color="green darken-1"
+          text
+          @click="logout"
+        >
+          I'm Sure
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
 </div>
 </template>
 
@@ -53,8 +86,22 @@ export default {
   data(){
     return {
     drawer: null,
+    logoutDialog: false,
     }
   },
+  methods:{
+    logout(){
+      let app = this;
+      this.$auth
+          .logout({
+            makeRequest: true,
+            redirect: {name: '/'},
+          });
+      app.logoutDialog= false;
+      let redirectTo = 'Home';
+      app.$router.push({name: redirectTo});
+    }
+  }
 
 };
 </script>
