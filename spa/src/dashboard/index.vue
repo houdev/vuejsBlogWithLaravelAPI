@@ -2,7 +2,7 @@
 <div>
   <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-list-item to="/">
+        <v-list-item to="/dashboard">
           <v-list-item-action>
             <v-icon>mdi-folder-pound-outline</v-icon>
           </v-list-item-action>
@@ -10,7 +10,7 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/AddArticle">
+        <v-list-item to="/dashboard/addArticle">
           <v-list-item-action>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-action>
@@ -33,18 +33,22 @@
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
   </v-app-bar>
-  
-  <add-article />
+
+  <v-content>
+    <div id="app">
+      <router-view/>
+    </div>
+  </v-content>
   
 </div>
 </template>
 
 <script>
-import AddArticle from '@/components/AddArticle.vue';
+
 export default {
   name: "App",
   components:{
-    AddArticle,
+
   },
   data(){
     return {

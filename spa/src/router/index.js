@@ -26,7 +26,14 @@ Vue.use(VueRouter)
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: dashboard
+    component: dashboard,
+    children:[
+      {
+        path: 'addArticle',
+        name: 'AddArticle',
+        component: AddArticle,
+      }
+    ]
   },
 ]
 
