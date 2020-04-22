@@ -93,6 +93,8 @@ export default {
       loginDialog:false,
       email:null,
       password:null,
+      success: false,
+      has_error: false,
     }
   },
   methods:{
@@ -116,7 +118,24 @@ export default {
         .catch(error => console.log(error) );
     },
     login(){
-      this.loginDialog = false;
+        let app = this;
+        this.$auth.login({
+            data: {
+                email: app.email,
+                password: app.password
+            },
+            success: function(data) {
+                console.log(data)
+                // handle redirection
+                app.success = true
+                 let redirectTo = 'dashboard'
+                app.$router.push({name: redirectTo})
+            },
+            error: function(res) {
+                app.has_error = true
+                console.log(res)
+            },
+        })
     },
   },
   created(){
