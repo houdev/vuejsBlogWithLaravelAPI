@@ -95,6 +95,7 @@ export default {
       password:null,
       success: false,
       has_error: false,
+      myToken: null,
     }
   },
   methods:{
@@ -119,24 +120,26 @@ export default {
     },
     login(){
         let app = this;
-        this.$auth.login({
+        this.$auth.login ({
             data: {
                 email: app.email,
                 password: app.password
             },
-            success: function(data) {
-                console.log(data)
-                // handle redirection
-                app.success = true
-                 let redirectTo = 'dashboard'
-                app.$router.push({name: redirectTo})
+            success: function (res) {
+                app.success = true;
+                app.rememberMyToken(res.data.token);
             },
-            error: function(res) {
-                app.has_error = true
-                console.log(res)
+            error: function () {
+                app.has_error = true;
             },
+            redirect: {name: 'dashboard'},
+            staySignedIn: true,
+            fetchUser: true
         })
     },
+    rememberMyToken(myToken) {
+        this.$auth.remember(myToken);
+    }
   },
   created(){
     axios.get(`${apiUrl}/api/articles`)

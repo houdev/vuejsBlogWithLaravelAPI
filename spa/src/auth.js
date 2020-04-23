@@ -28,14 +28,14 @@ const config = {
         makeRequest: true
     },
     fetchData: {
-        url: 'http://127.0.0.1:8000/api/user',
+        url: 'http://127.0.0.1:8000/api/me',
         method: 'POST',
         enabled: true
     },
     refreshData: {
         url: 'http://127.0.0.1:8000/api/refresh',
         method: 'GET',
-        enabled: true,
+        enabled: false,
         interval: 30
     }
 }

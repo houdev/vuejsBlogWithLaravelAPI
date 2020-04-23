@@ -37,6 +37,9 @@ Vue.use(VueRouter)
         path: 'addArticle',
         name: 'AddArticle',
         component: AddArticle,
+        meta: {
+          auth: true
+        },
       }
     ]
   },

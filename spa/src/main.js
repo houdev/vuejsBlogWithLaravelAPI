@@ -8,6 +8,7 @@ import VueAuth from '@websanova/vue-auth'
 import auth from './auth'
 
 Vue.config.productionTip = false
+Vue.router = router
 
 Vue.use(VueAxios, axios)
 Vue.use(VueAuth, auth)
