@@ -5,7 +5,6 @@ import ViewArticle from '../views/ViewArticle.vue'
 import AddArticle from '../components/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
 
-Vue.router = new VueRouter();
 Vue.use(VueRouter)
 
   const routes = [
