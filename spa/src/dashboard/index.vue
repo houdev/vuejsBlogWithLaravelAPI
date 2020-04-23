@@ -29,9 +29,13 @@
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title>Simple Blog</v-toolbar-title>
     <v-spacer></v-spacer>
+
+    {{ userName }}
+
     <v-btn icon @click="logoutDialog = true">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
+
   </v-app-bar>
 
   <v-content>
@@ -87,6 +91,7 @@ export default {
     return {
     drawer: null,
     logoutDialog: false,
+    userName: null,
     }
   },
   methods:{
@@ -100,7 +105,14 @@ export default {
       app.logoutDialog= false;
       let redirectTo = 'Home';
       app.$router.push({name: redirectTo});
-    }
+    },
+  },
+  mounted() {
+    let app = this
+      this.$auth.fetch()
+          .then((res) => {
+            app.userName = res.data.data.name
+          })
   }
 
 };
