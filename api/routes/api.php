@@ -21,7 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login', 'APILoginController@login');
+Route::post('register', 'AuthApiController@register');
+Route::post('login', 'AuthApiController@login');
+Route::get('logout', 'AuthApiController@logout');
+Route::post('me', 'AuthApiController@user');
 
 Route::get('articles', 'ArticlesController@view');
 Route::get('articles/{id}', 'ArticlesController@showById');
@@ -30,4 +33,3 @@ Route::post('articles/add', 'ArticlesController@store');
 Route::post('articles/update/{id}', 'ArticlesController@update');
 Route::post('articles/delete/{id}', 'ArticlesController@destroy');
 
-Route::get('logout', 'APILogoutController@logout');
