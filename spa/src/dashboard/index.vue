@@ -13,20 +13,15 @@
     <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item to="/dashboard">
+        <v-list-item
+            v-for="(dashbordItem, key) in dashbordItems"
+            :key="key"
+            :to="dashbordItem.to">
           <v-list-item-action>
-            <v-icon>mdi-folder-pound-outline</v-icon>
+            <v-icon>{{ dashbordItem.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/dashboard/addArticle">
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Add Article</v-list-item-title>
+            <v-list-item-title>{{ dashbordItem.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -103,6 +98,11 @@ export default {
     drawer: null,
     logoutDialog: false,
     userName: null,
+    dashbordItems:[
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard' },
+        { title: 'Add Article', icon: 'mdi-image', to:'/dashboard/addArticle' },
+        { title: 'My Articles', icon: 'mdi-help-box', to:'/dashboard/myArticles' },
+    ],
     }
   },
   methods:{

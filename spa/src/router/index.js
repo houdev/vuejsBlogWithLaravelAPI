@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import ViewArticle from '../views/ViewArticle.vue'
 import AddArticle from '../dashboard/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
+import MyArticles from '../dashboard/MyArticles.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +12,8 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component:
+    Home,
     meta: {
       auth: undefined
     }
@@ -36,6 +38,14 @@ Vue.use(VueRouter)
         path: 'addArticle',
         name: 'AddArticle',
         component: AddArticle,
+        meta: {
+          auth: true
+        }
+      },
+      {
+        path: 'myArticles',
+        name: 'MyArticles',
+        component: MyArticles,
         meta: {
           auth: true
         },
