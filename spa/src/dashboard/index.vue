@@ -1,6 +1,17 @@
 <template>
 <div>
-  <v-navigation-drawer v-model="drawer" app clipped>
+  <v-navigation-drawer v-model="drawer" app>
+
+    <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            {{ userName }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+    <v-divider></v-divider>
+
       <v-list dense>
         <v-list-item to="/dashboard">
           <v-list-item-action>
