@@ -100,11 +100,9 @@ export default {
       this.$auth
           .logout({
             makeRequest: true,
-            redirect: {name: '/'},
+            redirect: {name: 'Home'},
           });
       app.logoutDialog= false;
-      let redirectTo = 'Home';
-      app.$router.push({name: redirectTo});
     },
   },
   mounted() {
