@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use User;
 use JWTAuth;
+use Auth;
 
 class AuthApiController extends Controller
 {
