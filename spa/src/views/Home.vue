@@ -7,9 +7,33 @@
       >
         <v-toolbar-title>Simple Blog</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click="loginDialog = true">
+        <v-btn
+           icon
+           @click="loginDialog = true"
+           v-if="!$auth.check()"
+        >
           <v-icon>mdi-account-circle</v-icon>
         </v-btn>
+        <v-menu v-if="$auth.check()"
+          transition="slide-x-transition"
+          bottom
+          right
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item to="/dashboard">
+              <v-list-item-title>Dashboard</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title>Log-out</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-app-bar>
 
       <v-card class="ma-9">
@@ -139,7 +163,14 @@ export default {
     },
     rememberMyToken(myToken) {
         this.$auth.remember(myToken);
-    }
+    },
+    logout(){
+        this.$auth
+            .logout({
+                makeRequest: true,
+                redirect: {name: 'Home'},
+            });
+    },
   },
   created(){
     axios.get(`${apiUrl}/api/articles`)
