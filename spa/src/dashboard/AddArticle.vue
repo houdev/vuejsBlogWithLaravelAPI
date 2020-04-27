@@ -7,7 +7,7 @@
       >
       {{ successMessage }}
         <v-btn
-          color="whiet"
+          color="white"
           text
           @click="snackbar = false"
         >

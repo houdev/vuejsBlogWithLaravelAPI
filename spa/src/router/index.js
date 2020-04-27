@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ViewArticle from '../views/ViewArticle.vue'
-import AddArticle from '../components/AddArticle.vue'
+import AddArticle from '../dashboard/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
 
 Vue.use(VueRouter)
