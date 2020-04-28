@@ -9,6 +9,10 @@ use Auth;
 
 class AuthApiController extends Controller
 {
+    public function users()
+    {
+        return \App\User::all();
+    }
     public function register(Request $request)
     {
         $validate = Validator::make($request->all(), [
