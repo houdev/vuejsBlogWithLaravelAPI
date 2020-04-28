@@ -13,6 +13,19 @@ class AuthApiController extends Controller
     {
         return \App\User::all();
     }
+
+    public function deleteUser($id)
+    {
+        JWTAuth::parseToken()->authenticate();
+
+        $deleteUser = \App\User::find($id);
+
+        $deleteUser->delete();
+
+        //Return new users list after the delete
+        return \App\User::all();
+    }
+
     public function register(Request $request)
     {
         $validate = Validator::make($request->all(), [

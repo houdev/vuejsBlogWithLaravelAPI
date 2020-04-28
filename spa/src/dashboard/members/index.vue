@@ -19,7 +19,7 @@
           <v-card-actions>
             <v-row>
               <v-col align="center">
-                <v-btn text icon color="blue" dark to="/member/details">
+                <v-btn text icon color="blue" dark>
                   <v-icon size="20px">mdi-magnify</v-icon>
                 </v-btn>
               </v-col>
@@ -35,7 +35,7 @@
                     <v-card-text>Are you sure you want to delete this member?</v-card-text>
                     <v-card-actions>
                       <div class="flex-grow-1"></div>
-                      <v-btn color="green darken-1" text @click="memberDialog = false">Yes</v-btn>
+                      <v-btn color="green darken-1" text @click="deleteMember(member.id)">Yes</v-btn>
                       <v-btn color="green darken-1" text @click="memberDialog = false">Cancel</v-btn>
                     </v-card-actions>
                   </v-card>
@@ -59,6 +59,16 @@
             return{
                 members:[],
                 memberDialog:false,
+            }
+        },
+        methods:{
+            deleteMember(id){
+                axios.post(`${apiUrl}/api/user/delete/${id}`)
+                    .then( result => this.members = result.data )
+                    .catch( error => console.log(error) );
+
+                //close the dialog after the delete
+                this.memberDialog = false
             }
         },
         created() {

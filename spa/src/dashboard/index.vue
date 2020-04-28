@@ -3,12 +3,12 @@
   <v-navigation-drawer v-model="drawer" app>
 
     <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title">
-            {{ userName }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="title">
+          {{ userName }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
 
     <v-divider></v-divider>
 
@@ -45,9 +45,9 @@
   </v-app-bar>
 
   <v-content>
-    <div id="app">
-      <router-view/>
-    </div>
+    <v-container>
+      <router-view />
+    </v-container>
   </v-content>
 
   <v-dialog
@@ -130,24 +130,5 @@ export default {
 
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
