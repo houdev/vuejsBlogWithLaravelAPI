@@ -5,6 +5,7 @@ import ViewArticle from '../views/ViewArticle.vue'
 import AddArticle from '../dashboard/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
 import MyArticles from '../dashboard/MyArticles.vue'
+import Members from "../dashboard/members/index";
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,14 @@ Vue.use(VueRouter)
         path: 'myArticles',
         name: 'MyArticles',
         component: MyArticles,
+        meta: {
+          auth: true
+        },
+      },
+      {
+        path: 'members',
+        name: 'Members',
+        component: Members,
         meta: {
           auth: true
         },

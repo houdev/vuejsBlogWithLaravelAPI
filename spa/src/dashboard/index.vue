@@ -102,6 +102,7 @@ export default {
         { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard' },
         { title: 'Add Article', icon: 'mdi-image', to:'/dashboard/addArticle' },
         { title: 'My Articles', icon: 'mdi-help-box', to:'/dashboard/myArticles' },
+        { title: 'Members', icon: 'mdi-help-box', to:'/dashboard/members' },
     ],
     }
   },
