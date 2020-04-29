@@ -2,16 +2,6 @@
 <div>
   <v-navigation-drawer v-model="drawer" app>
 
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title class="title">
-          {{ userName }}
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-
-    <v-divider></v-divider>
-
       <v-list dense>
         <v-list-item
             v-for="(dashbordItem, key) in dashbordItems"
@@ -44,7 +34,7 @@
 
   </v-app-bar>
 
-  <v-content>
+  <v-content class="pa-0">
     <v-container>
       <router-view />
     </v-container>
