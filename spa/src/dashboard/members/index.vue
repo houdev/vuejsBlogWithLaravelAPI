@@ -24,6 +24,14 @@
                 </v-btn>
               </v-col>
               <v-col align="center">
+                <edit-member
+                  :username="member.name"
+                  :email="member.email"
+                  :memberId="member.id"
+                  @UpdateMember="UpdateMember"
+                />
+              </v-col>
+              <v-col align="center">
                 <v-dialog v-model="memberDialog" max-width="300">
                   <template v-slot:activator="{ on }">
                     <v-btn text icon color="red" v-on="on">
@@ -52,9 +60,13 @@
 <script>
     import axios from "axios";
     import {apiUrl} from "@/variables";
+    import EditMember from "./Edit";
 
     export default {
         name: "index",
+        components:{
+            EditMember
+        },
         data(){
             return{
                 members:[],
@@ -69,7 +81,18 @@
 
                 //close the dialog after the delete
                 this.memberDialog = false
-            }
+            },
+            UpdateMember(id, newMemberInfo){
+                let { newName, newEmail, newPass } = newMemberInfo
+
+                axios.post(`${apiUrl}/api/user/update/${id}`, {
+                    newName,
+                    newEmail,
+                    newPass
+                })
+                    .then( result => this.members = result.data )
+                    .catch( error => console.log(error) );
+            },
         },
         created() {
             axios.post(apiUrl+'/api/users')
