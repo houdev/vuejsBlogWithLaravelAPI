@@ -24,6 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('users', 'UsersController@view')->middleware('auth:api');
 Route::post('user/delete/{id}', 'UsersController@destroy')->middleware('auth:api');
 Route::post('user/update/{id}', 'UsersController@update')->middleware('auth:api');
+Route::post('user/store', 'UsersController@store')->middleware('auth:api');
 
 Route::post('register', 'AuthApiController@register');
 Route::post('login', 'AuthApiController@login');

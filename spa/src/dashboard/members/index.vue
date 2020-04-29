@@ -5,6 +5,10 @@
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
       <v-text-field label="Search" hide-details single-line></v-text-field>
+      <v-spacer></v-spacer>
+      <add-member
+        @AddMember="AddMember"
+      />
     </v-toolbar>
     <v-row>
       <v-col v-for="(member, key) in members" :key="key" cols="12" md="3">
@@ -61,11 +65,13 @@
     import axios from "axios";
     import {apiUrl} from "@/variables";
     import EditMember from "./Edit";
+    import AddMember from "./Add";
 
     export default {
         name: "index",
         components:{
-            EditMember
+            EditMember,
+            AddMember
         },
         data(){
             return{
@@ -74,16 +80,28 @@
             }
         },
         methods:{
+            AddMember(newMemberInfo){
+                let { name, email, pass, role } = newMemberInfo;
+
+                axios.post(`${apiUrl}/api/user/store`, {
+                    name,
+                    email,
+                    pass,
+                    role
+                })
+                    .then( result => this.members = result.data.data )
+                    .catch( error => console.log(error) );
+            },
             deleteMember(id){
                 axios.post(`${apiUrl}/api/user/delete/${id}`)
                     .then( result => this.members = result.data )
                     .catch( error => console.log(error) );
 
                 //close the dialog after the delete
-                this.memberDialog = false
+                this.memberDialog = false;
             },
             UpdateMember(id, newMemberInfo){
-                let { newName, newEmail, newPass } = newMemberInfo
+                let { newName, newEmail, newPass } = newMemberInfo;
 
                 axios.post(`${apiUrl}/api/user/update/${id}`, {
                     newName,

@@ -14,7 +14,29 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        
+        JWTAuth::parseToken()->authenticate();
+
+        $adminRole  = \App\Role::where('name', 'admin')->first();
+        $authorRole = \App\Role::where('name', 'author')->first();
+
+        $newUser = \App\User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->pass)
+        ]);
+
+        if($request->role == 'Author'){
+            $newUser->roles()->attach($authorRole);
+        }
+        elseif($request->role == 'Admin'){
+            $newUser->roles()->attach($adminRole);
+        }
+
+        //Return success message and new user list after adding new user
+        return response()->json([
+            "message" => "User Has Been Added Successfully",
+            "data"    => \App\User::all()
+        ]);
     }
 
     public function update($id, Request $request)
