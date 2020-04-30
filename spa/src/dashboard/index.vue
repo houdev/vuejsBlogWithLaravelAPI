@@ -89,10 +89,10 @@ export default {
     logoutDialog: false,
     userName: null,
     dashbordItems:[
-        { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard' },
-        { title: 'Add Article', icon: 'mdi-image', to:'/dashboard/addArticle' },
-        { title: 'My Articles', icon: 'mdi-help-box', to:'/dashboard/myArticles' },
-        { title: 'Members', icon: 'mdi-help-box', to:'/dashboard/members', display: () => this.$auth.check(1) },
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard', display: this.$auth.check() },
+        { title: 'Add Article', icon: 'mdi-image', to:'/dashboard/addArticle', display: this.$auth.check() },
+        { title: 'My Articles', icon: 'mdi-help-box', to:'/dashboard/myArticles', display: this.$auth.check() },
+        { title: 'Members', icon: 'mdi-help-box', to:'/dashboard/members', display: this.$auth.check(1) },
     ],
     }
   },
@@ -110,7 +110,7 @@ export default {
   computed:{
       authDashboardItems(){
           return this.dashbordItems.filter(function(items) {
-              return !items.display;
+              return items.display;
           });
       }
   },
