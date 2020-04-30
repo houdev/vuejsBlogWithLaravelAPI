@@ -149,9 +149,8 @@ export default {
                 email: app.email,
                 password: app.password
             },
-            success: function (res) {
+            success: function () {
                 app.success = true;
-                app.rememberMyToken(res.data.token);
             },
             error: function () {
                 app.has_error = true;

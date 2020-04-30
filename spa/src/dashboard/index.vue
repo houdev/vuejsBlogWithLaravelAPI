@@ -4,7 +4,7 @@
 
       <v-list dense>
         <v-list-item
-            v-for="(dashbordItem, key) in dashbordItems"
+            v-for="(dashbordItem, key) in authDashboardItems"
             :key="key"
             :to="dashbordItem.to">
           <v-list-item-action>
@@ -92,7 +92,7 @@ export default {
         { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard' },
         { title: 'Add Article', icon: 'mdi-image', to:'/dashboard/addArticle' },
         { title: 'My Articles', icon: 'mdi-help-box', to:'/dashboard/myArticles' },
-        { title: 'Members', icon: 'mdi-help-box', to:'/dashboard/members' },
+        { title: 'Members', icon: 'mdi-help-box', to:'/dashboard/members', display: () => this.$auth.check(1) },
     ],
     }
   },
@@ -106,6 +106,13 @@ export default {
           });
       app.logoutDialog= false;
     },
+  },
+  computed:{
+      authDashboardItems(){
+          return this.dashbordItems.filter(function(items) {
+              return !items.display;
+          });
+      }
   },
   mounted() {
     let app = this

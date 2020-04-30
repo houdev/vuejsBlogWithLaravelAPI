@@ -58,12 +58,13 @@ class AuthApiController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return response()->json([
+        return response([
+            'status' => 'success',
             'token' => $token,
-            'type' => 'bearer', // you can ommit this
             'expires' => auth('api')->factory()->getTTL() * 60, // time to expiration
-            
-        ]);
+        ])
+        ->header('Authorization', $token);
+
     }
 
     public function logout()
@@ -79,9 +80,18 @@ class AuthApiController extends Controller
     public function user(Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
+
+        //get the current user from the token
+        $currentUser = $user;
+
+        //get the user role
+        $role = $currentUser->roles->first()->id;
+
         return response()->json([
             'status' => 'success',
-            'data' => $user
+            'data' => [ 'role'  => $role,
+            'name'  => $currentUser->name,
+            'email' => $currentUser->email ],
         ]);
     }
 }
