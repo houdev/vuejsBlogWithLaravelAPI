@@ -36,9 +36,9 @@
                 />
               </v-col>
               <v-col align="center">
-                <v-dialog v-model="memberDialog" max-width="300">
+                <v-dialog v-model="memberDialog[member.id]" max-width="300">
                   <template v-slot:activator="{ on }">
-                    <v-btn text icon color="red" v-on="on">
+                    <v-btn text icon color="red" v-on="on" @click="$set(memberDialog, member.id, true)">
                       <v-icon size="20px">mdi-delete</v-icon>
                     </v-btn>
                   </template>
@@ -48,7 +48,7 @@
                     <v-card-actions>
                       <div class="flex-grow-1"></div>
                       <v-btn color="green darken-1" text @click="deleteMember(member.id)">Yes</v-btn>
-                      <v-btn color="green darken-1" text @click="memberDialog = false">Cancel</v-btn>
+                      <v-btn color="green darken-1" text @click="$set(memberDialog, member.id, false)">Cancel</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -76,7 +76,7 @@
         data(){
             return{
                 members:[],
-                memberDialog:false,
+                memberDialog:{},
             }
         },
         methods:{
