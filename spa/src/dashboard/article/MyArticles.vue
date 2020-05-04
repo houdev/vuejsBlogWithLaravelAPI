@@ -10,7 +10,7 @@
 
 <script>
     import axios from "axios";
-    import Articles from "../components/Articles";
+    import Articles from "../../components/Articles";
     import {apiUrl} from '@/variables.js'
 
     export default {

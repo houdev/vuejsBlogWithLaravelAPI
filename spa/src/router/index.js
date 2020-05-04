@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ViewArticle from '../views/ViewArticle.vue'
-import AddArticle from '../dashboard/AddArticle.vue'
+import AddArticle from '../dashboard/article/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
-import MyArticles from '../dashboard/MyArticles.vue'
+import MyArticles from '../dashboard/article/MyArticles.vue'
 import Members from "../dashboard/members/index";
 import Page403 from "../HTTP Status/Page403.vue";
 
