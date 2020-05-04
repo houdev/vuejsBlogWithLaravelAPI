@@ -15,7 +15,7 @@
         <v-card class="pt-5">
           <v-row justify="center">
             <v-avatar class="avatar" width="70px" height="70px">
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+              <img :src="member.picture" alt="John" />
             </v-avatar>
           </v-row>
 
