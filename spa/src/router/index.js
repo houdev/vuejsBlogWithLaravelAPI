@@ -6,6 +6,7 @@ import AddArticle from '../dashboard/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
 import MyArticles from '../dashboard/MyArticles.vue'
 import Members from "../dashboard/members/index";
+import Page403 from "../HTTP Status/Page403.vue";
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,14 @@ Vue.use(VueRouter)
         },
       }
     ]
+  },
+  {
+    path: '/403',
+    name: 'Page403',
+    component: Page403,
+    meta: {
+        auth: undefined
+    }
   },
 ]
 
