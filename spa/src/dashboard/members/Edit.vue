@@ -19,7 +19,7 @@
             height="100px"
             @click="$refs.inputUpload.click()"
           >
-            <v-img src="https://cdn.vuetifyjs.com/images/john.jpg">
+            <v-img :src="memberPic">
               <v-expand-transition>
                 <v-card
                   v-if="hover"
@@ -63,7 +63,7 @@
 <script>
     export default {
         name: "EditMember",
-        props:['memberId','username','email'],
+        props:['memberId','username','email','memberPic'],
         data() {
             return {
                 dialog: false,

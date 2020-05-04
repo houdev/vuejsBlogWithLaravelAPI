@@ -32,6 +32,7 @@
                   :username="member.name"
                   :email="member.email"
                   :memberId="member.id"
+                  :memberPic="member.picture"
                   @UpdateMember="UpdateMember"
                 />
               </v-col>
