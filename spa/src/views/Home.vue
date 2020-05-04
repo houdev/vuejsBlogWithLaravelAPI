@@ -45,7 +45,7 @@
       </v-card>
 
       <articles 
-        :myArticles="myArticles" 
+        :myArticles="showArticles"
         v-on:deleteArticle="deleteArticle"
         v-on:updateArticle="updateMyArticle"
       />
@@ -94,7 +94,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+    <v-pagination
+      v-model="page"
+      :length="Math.ceil(myArticles.length/perPage)"
+    ></v-pagination>
   </div>
 </template>
 
@@ -120,6 +123,8 @@ export default {
       success: false,
       has_error: false,
       myToken: null,
+      page:1,
+      perPage:3
     }
   },
   methods:{
@@ -167,6 +172,11 @@ export default {
                 redirect: {name: 'Home'},
             });
     },
+  },
+  computed:{
+    showArticles(){
+      return this.myArticles.slice((this.page - 1)* this.perPage, this.page* this.perPage)
+    }
   },
   created(){
     axios.get(`${apiUrl}/api/articles`)
