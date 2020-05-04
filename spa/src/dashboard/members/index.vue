@@ -58,6 +58,10 @@
           </v-card-actions>
         </v-card>
       </v-col>
+      <v-pagination
+              v-model="page"
+              :length="Math.ceil(members.length/perPage)"
+      ></v-pagination>
     </v-row>
   </v-container>
 </template>
@@ -79,6 +83,8 @@
                 members:[],
                 memberDialog:{},
                 searchName:null,
+                page:1,
+                perPage:3
             }
         },
         methods:{
@@ -120,7 +126,7 @@
                 var searchName = this.searchName;
 
                 if(!searchName){
-                  return members;
+                  return members.slice((this.page - 1)* this.perPage, this.page* this.perPage);
                 }
                 var searchMemberName = searchName.trim().toLowerCase();
                 members = members.filter(function(member){
@@ -128,7 +134,8 @@
                       return member;
                     }
                 })
-              return members;
+              
+              return members.slice((this.page - 1)* this.perPage, this.page* this.perPage);
             }
         },
         created() {
