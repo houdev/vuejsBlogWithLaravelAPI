@@ -160,9 +160,6 @@ export default {
             fetchUser: true
         })
     },
-    rememberMyToken(myToken) {
-        this.$auth.remember(myToken);
-    },
     logout(){
         this.$auth
             .logout({
