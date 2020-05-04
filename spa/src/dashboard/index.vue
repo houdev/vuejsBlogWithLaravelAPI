@@ -90,6 +90,7 @@ export default {
     userName: null,
     dashbordItems:[
         { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard', display: this.$auth.check() },
+        { title: 'My Profile', icon: 'mdi-account', to:'/dashboard/myProfile', display: this.$auth.check() },
         { title: 'Add Article', icon: 'mdi-file-plus', to:'/dashboard/addArticle', display: this.$auth.check() },
         { title: 'My Articles', icon: 'mdi-file-document', to:'/dashboard/myArticles', display: this.$auth.check() },
         { title: 'Members', icon: 'mdi-account-multiple', to:'/dashboard/members', display: this.$auth.check(1) },

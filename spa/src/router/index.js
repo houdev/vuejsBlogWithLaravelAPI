@@ -6,6 +6,7 @@ import AddArticle from '../dashboard/article/AddArticle.vue'
 import dashboard from '../dashboard/index.vue'
 import MyArticles from '../dashboard/article/MyArticles.vue'
 import Members from "../dashboard/members/index";
+import myProfile from "../dashboard/members/myProfile.vue";
 import Page403 from "../HTTP Status/Page403.vue";
 import Login from "../components/Login.vue";
 
@@ -57,6 +58,14 @@ Vue.use(VueRouter)
         path: 'members',
         name: 'Members',
         component: Members,
+        meta: {
+          auth: true
+        },
+      },
+      {
+        path: 'myProfile',
+        name: 'myProfile',
+        component: myProfile,
         meta: {
           auth: true
         },
