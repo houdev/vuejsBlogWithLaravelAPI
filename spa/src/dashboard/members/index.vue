@@ -4,14 +4,14 @@
       <v-toolbar-title>Members <span class="blue--text">{{ members.length }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
-      <v-text-field label="Search" hide-details single-line></v-text-field>
+      <v-text-field label="Search" v-model="searchName" hide-details single-line></v-text-field>
       <v-spacer></v-spacer>
       <add-member
         @AddMember="AddMember"
       />
     </v-toolbar>
     <v-row>
-      <v-col v-for="(member, key) in members" :key="key" cols="12" md="3">
+      <v-col v-for="(member, key) in filteredMemberList" :key="key" cols="12" md="3">
         <v-card class="pt-5">
           <v-row justify="center">
             <v-avatar class="avatar" width="70px" height="70px">
@@ -77,6 +77,7 @@
             return{
                 members:[],
                 memberDialog:{},
+                searchName:null,
             }
         },
         methods:{
@@ -111,6 +112,23 @@
                     .then( result => this.members = result.data )
                     .catch( error => console.log(error) );
             },
+        },
+        computed:{
+            filteredMemberList(){
+                var members = this.members;
+                var searchName = this.searchName;
+
+                if(!searchName){
+                  return members;
+                }
+                var searchMemberName = searchName.trim().toLowerCase();
+                members = members.filter(function(member){
+                    if(member.name.toLowerCase().indexOf(searchMemberName) !== -1){
+                      return member;
+                    }
+                })
+              return members;
+            }
         },
         created() {
             axios.post(apiUrl+'/api/users')
