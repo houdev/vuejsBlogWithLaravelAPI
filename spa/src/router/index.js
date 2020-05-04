@@ -7,6 +7,7 @@ import dashboard from '../dashboard/index.vue'
 import MyArticles from '../dashboard/article/MyArticles.vue'
 import Members from "../dashboard/members/index";
 import Page403 from "../HTTP Status/Page403.vue";
+import Login from "../components/Login.vue";
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,14 @@ Vue.use(VueRouter)
     meta: {
         auth: undefined
     }
+  },
+  {
+  path: '/Login',
+  name: 'Login',
+  component: Login,
+  meta: {
+      auth: undefined
+  }
   },
 ]
 
