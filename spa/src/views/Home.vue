@@ -94,10 +94,22 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-pagination
+      class="mt-5 mb-5"
       v-model="page"
       :length="Math.ceil(myArticles.length/perPage)"
     ></v-pagination>
+
+    <v-footer color="primary lighten-3" class="mt-5" padless>
+      <v-col
+        class="primary lighten-2 py-4 text-center white--text"
+        cols="12"
+      >
+        {{ new Date().getFullYear() }} — <strong>Small Blog</strong>
+      </v-col>
+    </v-footer>
+
   </div>
 </template>
 

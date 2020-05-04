@@ -134,7 +134,7 @@
                       return member;
                     }
                 })
-              
+
               return members.slice((this.page - 1)* this.perPage, this.page* this.perPage);
             }
         },
