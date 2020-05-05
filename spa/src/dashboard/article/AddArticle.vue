@@ -1,19 +1,12 @@
 <template>
-    <div>
-      <v-snackbar
-        v-model="snackbar"
-        right
-        color="success"
-      >
-      {{ successMessage }}
-        <v-btn
-          color="white"
-          text
-          @click="snackbar = false"
-        >
-        Close
-        </v-btn>
-      </v-snackbar>
+  <v-dialog v-model="dialog" max-width="600px">
+    <template v-slot:activator="{ on }">
+      <v-btn color="success" v-on="on" dark>
+        <v-icon size="20px">mdi-plus</v-icon>
+        Add New Article
+      </v-btn>
+    </template>
+    <v-card align="center">
       <v-row justify="center" align="center">
         <v-col cols="10">
           <v-text-field label="Title" v-model="title"></v-text-field>
@@ -36,7 +29,8 @@
           </v-btn>
         </v-col>
       </v-row>
-    </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -49,23 +43,27 @@ export default {
         return {
             title: "",
             body: "",
-            snackbar:false,
-            successMessage:null
+            dialog:false,
         }
     },
     methods:{
     AddArticle(){
-       
+
        Axios.post(`${apiUrl}/api/articles/add`,{
          title: this.title,
          body: this.body
        })
-          .then(result => this.successMessage = result.data.message, this.snackbar=true)
-          .catch(error => console.log(error));
+          .then( result => this.$emit('updateArticlesView', result.data.articles ) )
+          .catch( error => console.log(error) );
        
         //empty the fields after the add
         this.title = "";
         this.body = "";
+
+        // close dialog
+        this.dialog = false;
+
+
     },
     }
 }

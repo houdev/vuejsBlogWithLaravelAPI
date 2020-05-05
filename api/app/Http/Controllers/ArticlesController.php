@@ -41,7 +41,8 @@ class ArticlesController extends Controller
 
         //Return success message after adding new article
         return response()->json([
-            "message" => "Article Has Been Added Successfully"
+            "message" => "Article Has Been Added Successfully",
+            "articles" => Article::all()
         ]);
     }
 

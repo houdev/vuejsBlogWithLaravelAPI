@@ -1,14 +1,16 @@
 <template>
   <v-container>
     <v-toolbar>
+
       <v-toolbar-title>Articles <span class="blue--text">{{ articles.length }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
       <v-text-field label="Search" hide-details single-line></v-text-field>
+
       <v-spacer></v-spacer>
-<!--      <add-member-->
-<!--              @AddMember="AddMember"-->
-<!--      />-->
+
+      <add-article @updateArticlesView="updateArticlesView" />
+
     </v-toolbar>
     <v-row>
       <v-col cols="12">
@@ -45,14 +47,23 @@
 </template>
 
 <script>
+  import AddArticle from "./AddArticle";
   import { apiUrl } from "../../variables";
   import axios from "axios";
 
   export default {
     name: "articles",
+    components:{
+      AddArticle
+    },
     data () {
       return {
         articles:[]
+      }
+    },
+    methods:{
+      updateArticlesView(newArticlesList){
+        this.articles = newArticlesList;
       }
     },
     created(){
