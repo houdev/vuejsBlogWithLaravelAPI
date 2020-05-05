@@ -90,6 +90,7 @@ class AuthApiController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [ 'role'  => $role,
+            'userId' => $currentUser->id,
             'name'  => $currentUser->name,
             'email' => $currentUser->email ],
         ]);
