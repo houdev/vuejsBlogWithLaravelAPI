@@ -12,7 +12,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-card-actions>
+            <v-card-actions v-if="!hideActionButtonsFromHome">
 
               <v-btn icon>
                 <v-icon
@@ -134,6 +134,7 @@ export default {
         showDeleteDialog:false,
         currentTitle:this.myArticle.title,
         currentBody:this.myArticle.body,
+        hideActionButtonsFromHome:false,
       }
     },
     methods:{
@@ -156,6 +157,11 @@ export default {
         
       },
     },
+  created() {
+    if(this.$route.path == '/'){
+      this.hideActionButtonsFromHome = true;
+    }
+  }
 }
 </script>
 
