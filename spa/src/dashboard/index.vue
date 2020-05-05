@@ -28,9 +28,26 @@
 
     {{ userName }}
 
-    <v-btn icon @click="logoutDialog = true">
-      <v-icon>mdi-account-circle</v-icon>
-    </v-btn>
+    <v-menu
+      transition="slide-x-transition"
+      bottom
+      right
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item to="/">
+          <v-list-item-title>View Blog</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="logoutDialog = true">
+          <v-list-item-title>Log-out</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
 
   </v-app-bar>
 
