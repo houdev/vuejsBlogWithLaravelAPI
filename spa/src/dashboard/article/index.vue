@@ -29,7 +29,11 @@
                 <td>{{ article.title }}</td>
                 <td>{{ article.updated_at }}</td>
                 <td>
-                  <v-btn fab small color="primary">
+                  <v-btn
+                    fab
+                    small
+                    color="primary"
+                    @click="editThisArticle(article.title, article.body, article.id)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn fab small color="red" dark>
@@ -43,6 +47,60 @@
         </v-card>
       </v-col>
     </v-row>
+
+<!--    Edit Article    -->
+    <v-dialog
+            v-model="showEditDialog"
+            max-width="50%"
+    >
+      <v-card>
+        <v-card-title class="headline">Edit This Article</v-card-title>
+
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Title"
+                  v-model="currentTitle"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="currentBody"
+                  outlined
+                  name="bdoy"
+                  label="Bdoy"
+                >
+                </v-textarea>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="showEditDialog = false"
+          >
+            Cancel
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="updateThisArticle()"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 
@@ -58,12 +116,44 @@
     },
     data () {
       return {
-        articles:[]
+        articles:[],
+        showEditDialog:false,
+        currentArticleId:null,
+        currentTitle:null,
+        currentBody:null,
       }
     },
     methods:{
       updateArticlesView(newArticlesList){
         this.articles = newArticlesList;
+      },
+      editThisArticle(currentTitle, currentBody, currentArticleId){
+
+        //Open The Edit Article Dialog
+        this.showEditDialog = true;
+
+        //Get The Current Article's Details
+        this.currentTitle = currentTitle;
+        this.currentBody = currentBody;
+        this.currentArticleId = currentArticleId;
+      },
+      updateThisArticle(){
+
+        //Get The New Article's Details
+        let id = this.currentArticleId;
+        let title = this.currentTitle;
+        let body = this.currentBody;
+
+        //Send Update Request To The API
+        axios.post(`${apiUrl}/api/articles/update/${id}`, {
+          title,
+          body
+        })
+          .then( result => this.articles = result.data )
+          .catch( error => console.log(error) );
+
+        //Close The Edit Article Dialog
+        this.showEditDialog = false;
       }
     },
     created(){
