@@ -36,7 +36,7 @@
                     @click="editThisArticle(article.title, article.body, article.id)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn fab small color="red" dark>
+                  <v-btn fab small color="red" dark @click="deleteThisArticle(article.id)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -101,6 +101,40 @@
       </v-card>
     </v-dialog>
 
+    <!--    Delete Article    -->
+    <v-dialog
+      v-model="showDeleteDialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">Delete This Article!</v-card-title>
+
+        <v-card-text>
+          Do You Want To Delete This Article?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="showDeleteDialog = false"
+          >
+            No
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deleteArticle"
+          >
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 
@@ -121,6 +155,8 @@
         currentArticleId:null,
         currentTitle:null,
         currentBody:null,
+        showDeleteDialog:false,
+        deleteArticleID:null,
       }
     },
     methods:{
@@ -154,7 +190,27 @@
 
         //Close The Edit Article Dialog
         this.showEditDialog = false;
-      }
+      },
+      deleteThisArticle(id){
+
+        //Get The Article's Id From v-for
+        this.deleteArticleID = id;
+
+        //Open The Delete Article Dialog
+        this.showDeleteDialog = true;
+      },
+      deleteArticle(){
+        //Get The Article's Id To Delete The Article
+        let id = this.deleteArticleID;
+
+        //Send Delete Request To The API
+        axios.post(`${apiUrl}/api/articles/delete/${id}`)
+              .then( result => this.articles = result.data )
+              .catch( error => console.log(error) );
+
+        //Close The Delete Article Dialog
+        this.showDeleteDialog = false;
+      },
     },
     created(){
         //get Articles
