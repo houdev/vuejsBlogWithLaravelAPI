@@ -5,7 +5,7 @@
       <v-toolbar-title>Articles <span class="blue--text">{{ articles.length }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
-      <v-text-field label="Search" hide-details single-line></v-text-field>
+      <v-text-field label="Search" v-model="searchForTitle" hide-details single-line></v-text-field>
 
       <v-spacer></v-spacer>
 
@@ -166,6 +166,7 @@
         deleteArticleID:null,
         paginationPage:1,
         paginationPerPage:5,
+        searchForTitle:null,
       }
     },
     methods:{
@@ -223,7 +224,26 @@
     },
     computed:{
       filteredArticlesList(){
-        return this.articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);
+        var searchTitle = this.searchForTitle;
+        var articles =  this.articles;
+
+        //If the search text is null then return the article list
+        if(!searchTitle){
+          return articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);
+        }
+
+        //Trim it and convert the search text to lower case
+        var searchArticleTitle = searchTitle.trim().toLowerCase();
+
+        //Filter the articles' list
+        articles = articles.filter(function (article) {
+          if(article.title.toLowerCase().indexOf(searchArticleTitle) !== -1){
+            return article;
+          }
+        })
+
+        //Slice and return the wanted Filtered list
+        return articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);
       },
     },
     created(){
