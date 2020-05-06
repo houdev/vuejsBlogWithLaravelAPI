@@ -25,7 +25,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="article in articles" :key="article.id">
+              <tr v-for="article in filteredArticlesList" :key="article.id">
                 <td>{{ article.title }}</td>
                 <td>{{ article.updated_at }}</td>
                 <td>
@@ -46,6 +46,13 @@
           </v-simple-table>
         </v-card>
       </v-col>
+
+      <v-pagination
+        class="mt-5 mb-5"
+        v-model="paginationPage"
+        :length="Math.ceil(articles.length/paginationPerPage)"
+      ></v-pagination>
+
     </v-row>
 
 <!--    Edit Article    -->
@@ -157,6 +164,8 @@
         currentBody:null,
         showDeleteDialog:false,
         deleteArticleID:null,
+        paginationPage:1,
+        paginationPerPage:5,
       }
     },
     methods:{
@@ -210,6 +219,11 @@
 
         //Close The Delete Article Dialog
         this.showDeleteDialog = false;
+      },
+    },
+    computed:{
+      filteredArticlesList(){
+        return this.articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);
       },
     },
     created(){
