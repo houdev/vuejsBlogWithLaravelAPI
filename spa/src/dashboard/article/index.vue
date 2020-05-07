@@ -5,7 +5,7 @@
       <v-toolbar-title>Articles <span class="blue--text">{{ articles.length }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
-      <v-text-field label="Search" v-model="searchForTitle" hide-details single-line></v-text-field>
+      <v-text-field label="Search" v-model="searchForTitle" @change="searchForTitleFn" hide-details single-line></v-text-field>
 
       <v-spacer></v-spacer>
 
@@ -25,7 +25,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="article in filteredArticlesList" :key="article.id">
+              <tr v-for="article in paginationArticlesList" :key="article.id">
                 <td>{{ article.title }}</td>
                 <td>{{ article.updated_at }}</td>
                 <td>
@@ -221,26 +221,20 @@
         //Close The Delete Article Dialog
         this.showDeleteDialog = false;
       },
+      searchForTitleFn(){
+        var searchTitle = this.searchForTitle;
+
+        axios.post(`${apiUrl}/api/articles/search`, {
+          articleTitle:searchTitle
+        })
+          .then( result => this.articles = result.data )
+          .catch( error => console.log(error) );
+      },
     },
     computed:{
-      filteredArticlesList(){
-        var searchTitle = this.searchForTitle;
+      paginationArticlesList(){
+
         var articles =  this.articles;
-
-        //If the search text is null then return the article list
-        if(!searchTitle){
-          return articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);
-        }
-
-        //Trim it and convert the search text to lower case
-        var searchArticleTitle = searchTitle.trim().toLowerCase();
-
-        //Filter the articles' list
-        articles = articles.filter(function (article) {
-          if(article.title.toLowerCase().indexOf(searchArticleTitle) !== -1){
-            return article;
-          }
-        })
 
         //Slice and return the wanted Filtered list
         return articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);

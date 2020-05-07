@@ -77,5 +77,12 @@ class ArticlesController extends Controller
         return Article::all();
     }
 
+    public function searchArticletitle(Request $request)
+    {
+        $searchTitle = $request->articleTitle;
 
+        $articles = Article::where('title', 'LIKE', "%{$searchTitle}%")->orderBy('created_at', 'desc')->get();
+
+        return $articles;
+    }
 }

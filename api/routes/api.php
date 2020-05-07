@@ -37,4 +37,5 @@ Route::get('myarticles', 'ArticlesController@myArticles');
 Route::post('articles/add', 'ArticlesController@store');
 Route::post('articles/update/{id}', 'ArticlesController@update');
 Route::post('articles/delete/{id}', 'ArticlesController@destroy');
+Route::post('articles/search/', 'ArticlesController@searchArticletitle');
 
