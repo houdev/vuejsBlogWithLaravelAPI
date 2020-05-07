@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use App\Article;
 use JWTAuth;
 
+
+
 class ArticlesController extends Controller
 {
+    public $paginteNumber = 5;
+
     public function view()
     {
-        return Article::orderBy('created_at', 'desc')->get();
+        return Article::orderBy('created_at', 'desc')->paginate($this->paginteNumber);
     }
 
     public function showById($id)
@@ -42,7 +46,7 @@ class ArticlesController extends Controller
         //Return success message after adding new article
         return response()->json([
             "message" => "Article Has Been Added Successfully",
-            "articles" => Article::orderBy('created_at', 'desc')->get()
+            "articles" => Article::orderBy('created_at', 'desc')->paginate($this->paginteNumber)
         ]);
     }
 
@@ -60,7 +64,7 @@ class ArticlesController extends Controller
         $updateArticle->save();
 
         //Return new articles list after the update
-        return Article::orderBy('created_at', 'desc')->get();
+        return Article::orderBy('created_at', 'desc')->paginate($this->paginteNumber);
     }
 
     public function destroy($id)
@@ -74,14 +78,16 @@ class ArticlesController extends Controller
         $deleteArticle->delete();
 
         //Return new articles list after the delete
-        return Article::orderBy('created_at', 'desc')->get();
+        return Article::orderBy('created_at', 'desc')->paginate($this->paginteNumber);
     }
 
     public function searchArticletitle(Request $request)
     {
         $searchTitle = $request->articleTitle;
 
-        $articles = Article::where('title', 'LIKE', "%{$searchTitle}%")->orderBy('created_at', 'desc')->get();
+        $articles = Article::where('title', 'LIKE', "%{$searchTitle}%")
+                            ->orderBy('created_at', 'desc')
+                            ->paginate($this->paginteNumber);
 
         return $articles;
     }

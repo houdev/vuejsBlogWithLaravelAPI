@@ -25,7 +25,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="article in paginationArticlesList" :key="article.id">
+              <tr v-for="article in articles" :key="article.id">
                 <td>{{ article.title }}</td>
                 <td>{{ article.updated_at }}</td>
                 <td>
@@ -49,8 +49,9 @@
 
       <v-pagination
         class="mt-5 mb-5"
-        v-model="paginationPage"
-        :length="Math.ceil(articles.length/paginationPerPage)"
+        v-model="pagination.current"
+        :length="pagination.total"
+        @input="getArticles"
       ></v-pagination>
 
     </v-row>
@@ -158,18 +159,28 @@
     data () {
       return {
         articles:[],
+        pagination:{
+          current:1,
+          total:0
+        },
         showEditDialog:false,
         currentArticleId:null,
         currentTitle:null,
         currentBody:null,
         showDeleteDialog:false,
         deleteArticleID:null,
-        paginationPage:1,
-        paginationPerPage:5,
         searchForTitle:null,
       }
     },
     methods:{
+      getArticles(){
+        axios.get(apiUrl+'/api/articles?page=' + this.pagination.current
+        ).then( res => {
+          this.articles = res.data.data;
+          this.pagination.current = res.data.current_page;
+          this.pagination.total = res.data.last_page;
+        })
+      },
       updateArticlesView(newArticlesList){
         this.articles = newArticlesList;
       },
@@ -231,19 +242,9 @@
           .catch( error => console.log(error) );
       },
     },
-    computed:{
-      paginationArticlesList(){
-
-        var articles =  this.articles;
-
-        //Slice and return the wanted Filtered list
-        return articles.slice((this.paginationPage - 1) * this.paginationPerPage, this.paginationPage * this.paginationPerPage);
-      },
-    },
     created(){
         //get Articles
-        axios.get(apiUrl+'/api/articles'
-        ).then( res => this.articles = res.data )
+        this.getArticles();
       }
   }
 </script>
