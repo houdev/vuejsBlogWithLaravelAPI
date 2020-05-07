@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import ViewArticle from '../views/ViewArticle.vue'
 import AddArticle from '../dashboard/article/AddArticle.vue'
 import dashboardIndex from '../dashboard/index.vue'
-import dashboard from '../dashboard/dashboard.vue'
+import dashboard from '../dashboard/view/dashboard.vue'
 import MyArticles from '../dashboard/article/MyArticles.vue'
 import Articles from '../dashboard/article/index.vue'
 import Members from "../dashboard/members/index";
