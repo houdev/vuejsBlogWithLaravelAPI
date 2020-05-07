@@ -10,7 +10,7 @@ class ArticlesController extends Controller
 {
     public function view()
     {
-        return Article::all();
+        return Article::orderBy('created_at', 'desc')->get();
     }
 
     public function showById($id)
@@ -22,7 +22,7 @@ class ArticlesController extends Controller
     {
         $CurrentUser = JWTAuth::parseToken()->authenticate();
 
-        return Article::where('user_id', $CurrentUser->id)->get();
+        return Article::where('user_id', $CurrentUser->id)->orderBy('created_at', 'desc')->get();
 
     }
 
@@ -42,7 +42,7 @@ class ArticlesController extends Controller
         //Return success message after adding new article
         return response()->json([
             "message" => "Article Has Been Added Successfully",
-            "articles" => Article::all()
+            "articles" => Article::orderBy('created_at', 'desc')->get()
         ]);
     }
 
@@ -60,7 +60,7 @@ class ArticlesController extends Controller
         $updateArticle->save();
 
         //Return new articles list after the update
-        return Article::all();
+        return Article::orderBy('created_at', 'desc')->get();
     }
 
     public function destroy($id)
@@ -74,7 +74,7 @@ class ArticlesController extends Controller
         $deleteArticle->delete();
 
         //Return new articles list after the delete
-        return Article::all();
+        return Article::orderBy('created_at', 'desc')->get();
     }
 
     public function searchArticletitle(Request $request)
