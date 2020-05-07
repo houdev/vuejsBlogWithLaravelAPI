@@ -238,7 +238,11 @@
         axios.post(`${apiUrl}/api/articles/search`, {
           articleTitle:searchTitle
         })
-          .then( result => this.articles = result.data )
+          .then( result => {
+            this.articles = result.data.data;
+            this.pagination.current = result.data.current_page;
+            this.pagination.total = result.data.last_page;
+          })
           .catch( error => console.log(error) );
       },
     },
