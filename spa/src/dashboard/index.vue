@@ -106,7 +106,7 @@ export default {
     logoutDialog: false,
     userName: null,
     dashbordItems:[
-        { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard', display: this.$auth.check() },
+        { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard/dashboard', display: this.$auth.check() },
         { title: 'My Profile', icon: 'mdi-account', to:'/dashboard/myProfile', display: this.$auth.check() },
         { title: 'Articles', icon: 'mdi-file-plus', to:'/dashboard/articles', display: this.$auth.check(1) },
         { title: 'Add Article', icon: 'mdi-file-plus', to:'/dashboard/addArticle', display: this.$auth.check(2) },
