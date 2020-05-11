@@ -24,7 +24,7 @@
             </v-btn>
           </v-col>
           <v-col cols="12" sm="6" md="6" v-if="save">
-            <v-btn color="success" @click="UpdateMyInfo(member.userId)">
+            <v-btn color="success" @click="UpdateMyInfo(memberId)">
               <v-icon>
                 mdi-floppy
               </v-icon>
@@ -45,7 +45,7 @@
     name: "myProfile",
     data(){
       return{
-        member:[],
+        memberId: null,
         newUsername: null,
         newEmail: null,
         newPass: null,
@@ -75,9 +75,13 @@
         this.disableEdit = true;
       },
     },
-    created() {
+    mounted() {
       axios.post(apiUrl+'/api/me')
-        .then(result => this.member = result.data.data)
+        .then(result => {
+          this.newUsername = result.data.data.name;
+          this.newEmail = result.data.data.email;
+          this.memberId = result.data.data.userId;
+        })
         .catch(error => console.log(error))
     }
   }
