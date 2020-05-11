@@ -1,8 +1,8 @@
 <template>
   <div>
     <blog-statistics
-      :articles="articles"
-      :members="members"
+      :artilcesCount="artilcesCount"
+      :usersCount="usersCount"
       :myArticles="myArticles"
     />
   </div>
@@ -20,23 +20,22 @@
     },
     data(){
       return{
-        articles:[],
-        myArticles:[],
-        members:[],
+        artilcesCount: 0,
+        myArticles: [],
+        usersCount: 0,
       }
     },
     created() {
-      axios.get(`${apiUrl}/api/articles`)
-      .then( result => this.articles = result.data)
+      axios.get(`${apiUrl}/api/blog/statistics`)
+      .then( result => {
+        this.artilcesCount = result.data.artilcesCount;
+        this.usersCount = result.data.usersCount;
+      })
       .catch( error => console.log(error) );
 
       axios.get(`${apiUrl}/api/myarticles`)
         .then( result => this.myArticles = result.data)
         .catch( error => console.log(error) );
-
-      axios.post(`${apiUrl}/api/users`)
-      .then( result => this.members = result.data)
-      .catch( error => console.log(error) );
 
     }
   }

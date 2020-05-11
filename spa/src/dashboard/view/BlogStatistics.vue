@@ -7,7 +7,7 @@
             Total Articles
           </v-card-title>
           <v-card-subtitle class="display-2 mt-5">
-            {{ articles.length }}
+            {{ artilcesCount }}
           </v-card-subtitle>
         </v-card>
       </v-col>
@@ -27,7 +27,7 @@
             Total Members
           </v-card-title>
           <v-card-subtitle class="display-2 mt-5">
-            {{ members.length }}
+            {{ usersCount }}
           </v-card-subtitle>
         </v-card>
       </v-col>
@@ -39,8 +39,8 @@
   export default {
     name: "BlogStatistics",
     props:{
-      articles: Array,
-      members: Array,
+      artilcesCount: Number,
+      usersCount: Number,
       myArticles: Array,
     },
   }

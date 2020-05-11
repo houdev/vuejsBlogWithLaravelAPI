@@ -39,3 +39,15 @@ Route::post('articles/update/{id}', 'ArticlesController@update');
 Route::post('articles/delete/{id}', 'ArticlesController@destroy');
 Route::post('articles/search/', 'ArticlesController@searchArticletitle');
 
+Route::get('/blog/statistics', function (){
+    $users = \App\User::all();
+    $articles = \App\Article::all();
+
+    $usersCount = count($users);
+    $artilcesCount = count($articles);
+
+    return response( [
+        'usersCount' => $usersCount,
+        'artilcesCount' => $artilcesCount,
+    ]);
+});

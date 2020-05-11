@@ -192,7 +192,7 @@ export default {
   },
   created(){
     axios.get(`${apiUrl}/api/articles`)
-      .then(result => this.myArticles = result.data)
+      .then(result => this.myArticles = result.data.data)
       .catch(error => console.log(error))
   },
 };
