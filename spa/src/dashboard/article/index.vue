@@ -2,7 +2,7 @@
   <v-container>
     <v-toolbar>
 
-      <v-toolbar-title>Articles <span class="blue--text">{{ articles.length }}</span></v-toolbar-title>
+      <v-toolbar-title>Articles <span class="blue--text">{{ artilcesCount }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
       <v-text-field label="Search" v-model="searchForTitle" @change="searchForTitleFn" hide-details single-line></v-text-field>
@@ -170,6 +170,7 @@
         showDeleteDialog:false,
         deleteArticleID:null,
         searchForTitle:null,
+        artilcesCount: 0,
       }
     },
     methods:{
@@ -206,8 +207,11 @@
           title,
           body
         })
-          .then( result => this.articles = result.data )
+          .then( result => this.articles = result.data.data )
           .catch( error => console.log(error) );
+
+        // Return the pagination to 1
+        this.pagination.current = 1;
 
         //Close The Edit Article Dialog
         this.showEditDialog = false;
@@ -226,8 +230,11 @@
 
         //Send Delete Request To The API
         axios.post(`${apiUrl}/api/articles/delete/${id}`)
-              .then( result => this.articles = result.data )
+              .then( result => this.articles = result.data.data )
               .catch( error => console.log(error) );
+
+        // Return the pagination to 1
+        this.pagination.current = 1;
 
         //Close The Delete Article Dialog
         this.showDeleteDialog = false;
@@ -249,6 +256,13 @@
     created(){
         //get Articles
         this.getArticles();
+
+        // Get Blog Statistics
+        axios.get(`${apiUrl}/api/blog/statistics`)
+          .then( result => {
+            this.artilcesCount = result.data.artilcesCount;
+          })
+          .catch( error => console.log(error) );
       }
   }
 </script>
