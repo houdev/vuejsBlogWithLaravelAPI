@@ -16,7 +16,7 @@
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form>
+            <v-form ref="loginForm">
               <v-alert type="error" v-if="credentialError.error">
                 {{ credentialError.message }}
               </v-alert>
@@ -69,6 +69,12 @@
     },
     methods:{
       login(){
+
+        // Check the form if it's not validate return null
+        if(!this.$refs.loginForm.validate()){
+          return null;
+        }
+
         let app = this;
         this.$auth.login ({
           data: {
