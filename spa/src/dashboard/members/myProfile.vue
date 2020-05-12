@@ -4,35 +4,65 @@
       <span>My Information</span>
     </v-card-title>
     <v-card-text>
-      <v-container>
-        <v-row>
-          <v-col cols="12" sm="6" md="6">
-            <v-text-field label="Full Name" :disabled="disableEdit" v-model="newUsername" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6" md="6">
-            <v-text-field label="E-mail" :disabled="disableEdit" v-model="newEmail" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6" md="6">
-            <v-text-field label="New Password" :disabled="disableEdit" v-model="newPass" required></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6" md="6" v-if="edit">
-            <v-btn color="primary" @click="activateEditAbility">
-              <v-icon>
-                mdi-pencil
-              </v-icon>
-              Edit
-            </v-btn>
-          </v-col>
-          <v-col cols="12" sm="6" md="6" v-if="save">
-            <v-btn color="success" @click="UpdateMyInfo(memberId)">
-              <v-icon>
-                mdi-floppy
-              </v-icon>
-              save
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
+
+        <v-form ref="editMyProfileForm">
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-alert type="error" v-if="passwordIsRequired.error">
+                  {{ passwordIsRequired.message }}
+                </v-alert>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="Full Name"
+                  :disabled="disableEdit"
+                  v-model="newUsername"
+                  required
+                  :rules="editInfoFormRules"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="E-mail"
+                  :disabled="disableEdit"
+                  v-model="newEmail"
+                  required
+                  :rules="editInfoFormRules"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="New Password"
+                  :disabled="disableEdit"
+                  v-model="newPass"
+                  required
+                  :rules="editInfoFormRules"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6" v-if="edit">
+                <v-btn color="primary" @click="activateEditAbility">
+                  <v-icon>
+                    mdi-pencil
+                  </v-icon>
+                  Edit
+                </v-btn>
+              </v-col>
+              <v-col cols="12" sm="6" md="6" v-if="save">
+                <v-btn color="success" @click="UpdateMyInfo(memberId)">
+                  <v-icon>
+                    mdi-floppy
+                  </v-icon>
+                  save
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
+
     </v-card-text>
   </v-card>
 </template>
@@ -45,6 +75,13 @@
     name: "myProfile",
     data(){
       return{
+        editInfoFormRules:[
+          value => value && value.length >= 4 || 'Minimum length is 4 characters'
+        ],
+        passwordIsRequired: {
+          error: false,
+          message: null,
+        },
         memberId: null,
         newUsername: null,
         newEmail: null,
@@ -61,6 +98,11 @@
         this.disableEdit = false;
       },
       UpdateMyInfo(id){
+
+        if(!this.$refs.editMyProfileForm.validate()){
+          this.passwordIsRequired.error = true;
+          return this.passwordIsRequired.message = "The password is required";
+        }
 
         axios.post(`${apiUrl}/api/user/update/${id}`, {
           newName: this.newUsername,
