@@ -2,7 +2,7 @@
   <v-container>
     <v-toolbar>
 
-      <v-toolbar-title>Articles <span class="blue--text">{{ artilcesCount }}</span></v-toolbar-title>
+      <v-toolbar-title>Articles <span class="blue--text">{{ articlesCount }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
       <v-text-field label="Search" v-model="searchForTitle" @change="searchForTitleFn" hide-details single-line></v-text-field>
@@ -65,26 +65,30 @@
         <v-card-title class="headline">Edit This Article</v-card-title>
 
         <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Title"
-                  v-model="currentTitle"
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-textarea
-                  v-model="currentBody"
-                  outlined
-                  name="bdoy"
-                  label="Bdoy"
-                >
-                </v-textarea>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-form ref="editArticleForm">
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Title"
+                    v-model="currentTitle"
+                    :rules="articleTitleRules"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="currentBody"
+                    outlined
+                    name="body"
+                    label="Body"
+                    :rules="articleBodyRules"
+                  >
+                  </v-textarea>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
         </v-card-text>
 
         <v-card-actions>
@@ -158,6 +162,12 @@
     },
     data () {
       return {
+        articleTitleRules:[
+          title => title && title.length >= 10 || "The title most be more than 10 characters"
+        ],
+        articleBodyRules:[
+          body => body && body.length >= 20 || "The body most be more than 20 characters"
+        ],
         articles:[],
         pagination:{
           current:1,
@@ -170,7 +180,7 @@
         showDeleteDialog:false,
         deleteArticleID:null,
         searchForTitle:null,
-        artilcesCount: 0,
+        articlesCount: 0,
       }
     },
     methods:{
@@ -196,6 +206,11 @@
         this.currentArticleId = currentArticleId;
       },
       updateThisArticle(){
+
+        // Check the form if it's not validate return null
+        if(!this.$refs.editArticleForm.validate()){
+          return null;
+        }
 
         //Get The New Article's Details
         let id = this.currentArticleId;
@@ -260,7 +275,7 @@
         // Get Blog Statistics
         axios.get(`${apiUrl}/api/blog/statistics`)
           .then( result => {
-            this.artilcesCount = result.data.artilcesCount;
+            this.articlesCount = result.data.articlesCount;
           })
           .catch( error => console.log(error) );
       }
