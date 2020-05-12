@@ -45,7 +45,7 @@
       </v-card>
 
       <articles 
-        :myArticles="showArticles"
+        :myArticles="myArticles"
         v-on:deleteArticle="deleteArticle"
         v-on:updateArticle="updateMyArticle"
       />
@@ -111,9 +111,11 @@
 
     <v-pagination
       class="mt-5 mb-5"
-      v-model="page"
-      :length="Math.ceil(myArticles.length/perPage)"
-    ></v-pagination>
+      v-model="pagination.current"
+      :length="pagination.total"
+      @input="getArticles"
+    >
+    </v-pagination>
 
     <v-footer color="primary lighten-3" class="mt-5" padless>
       <v-col
@@ -156,11 +158,21 @@ export default {
         message: null
       },
       myToken: null,
-      page:1,
-      perPage:3
+      pagination:{
+        current:1,
+        total:0
+      },
     }
   },
   methods:{
+    getArticles(){
+      axios.get(apiUrl+'/api/articles?page=' + this.pagination.current
+      ).then( res => {
+        this.myArticles = res.data.data;
+        this.pagination.current = res.data.current_page;
+        this.pagination.total = res.data.last_page;
+      })
+    },
     deleteArticle(id){
       axios.post(`${apiUrl}/api/articles/delete/${id}`)
         .then(result => this.myArticles = result.data, 
@@ -216,15 +228,9 @@ export default {
             });
     },
   },
-  computed:{
-    showArticles(){
-      return this.myArticles.slice((this.page - 1)* this.perPage, this.page* this.perPage)
-    }
-  },
   created(){
-    axios.get(`${apiUrl}/api/articles`)
-      .then(result => this.myArticles = result.data.data)
-      .catch(error => console.log(error))
+    //get Articles
+    this.getArticles();
   },
 };
 </script>
