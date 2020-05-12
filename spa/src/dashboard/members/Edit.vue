@@ -7,7 +7,7 @@
     </template>
     <v-card align="center">
       <v-card-title>
-        <span>Edit User Information</span>
+        <span>Edit This Member's Information</span>
       </v-card-title>
 
       <template>
@@ -37,19 +37,39 @@
       </template>
 
       <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12" sm="6" md="6">
-              <v-text-field label="Full Name" v-model="newUsername" required></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" md="6">
-              <v-text-field label="E-mail" v-model="newEmail" required></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6" md="6">
-              <v-text-field label="Password" v-model="newPass" required></v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
+        <v-form ref="editMemberForm">
+          <v-container>
+            <v-row>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="Full Name"
+                  v-model="newUsername"
+                  required
+                  :rules="memberNameRules"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="E-mail"
+                  v-model="newEmail"
+                  required
+                  :rules="memberEmailRules"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field
+                  label="Password"
+                  v-model="newPass"
+                  required
+                  :rules="memberPasswordRules"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <div class="flex-grow-1"></div>
@@ -70,10 +90,25 @@
                 newUsername: this.username,
                 newEmail: this.email,
                 newPass: null,
+                memberNameRules:[
+                  name => name && name.length >= 4 || "The Name most be more than 4 characters"
+                ],
+                memberEmailRules:[
+                  email => email && email.length >= 6 || "The Email most be more than 6 characters"
+                ],
+                memberPasswordRules:[
+                  password => password && password.length >= 8 || "The Password most be more than 8 characters"
+                ],
             };
         },
         methods:{
             UpdateMember(){
+
+                // Check the form if it's not validate return null
+                if(!this.$refs.editMemberForm.validate()){
+                  return null;
+                }
+
                 let id = this.memberId;
                 let newMemberInfo = {
                     newName: this.newUsername,

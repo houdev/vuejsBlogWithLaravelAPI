@@ -23,11 +23,6 @@
           <v-card-actions>
             <v-row>
               <v-col align="center">
-                <v-btn text icon color="blue" dark>
-                  <v-icon size="20px">mdi-magnify</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col align="center">
                 <edit-member
                   :username="member.name"
                   :email="member.email"
