@@ -17,17 +17,29 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-container>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field label="Email*" required v-model="email"></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field label="Password*" type="password" required v-model="password"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <v-alert type="error" v-if="credentialError.error">
+                {{ credentialError.message }}
+              </v-alert>
+
+              <v-text-field
+                label="Email*"
+                required
+                v-model="email"
+                :rules="loginFormRules"
+              >
+              </v-text-field>
+
+              <v-text-field
+                label="Password*"
+                type="password"
+                required
+                v-model="password"
+                :rules="loginFormRules"
+              >
+              </v-text-field>
+
             </v-form>
+            <small>*indicates required field</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -42,6 +54,19 @@
 <script>
   export default {
     name: "Login",
+    data(){
+      return{
+        loginFormRules:[
+          value => value && value.length >= 4 || 'Minimum length is 4 characters'
+        ],
+        credentialError:{
+          error: false,
+          message: null
+        },
+        email:null,
+        password:null,
+      }
+    },
     methods:{
       login(){
         let app = this;
@@ -53,7 +78,11 @@
           success: function () {
             app.success = true;
           },
-          error: function () {
+          error: function (error) {
+            if(error.toString().indexOf("401") !== -1){
+              app.credentialError.error = true;
+              app.credentialError.message = "Your Email OR Password Is Wrong.";
+            }
             app.has_error = true;
           },
           redirect: {name: 'dashboard'},
