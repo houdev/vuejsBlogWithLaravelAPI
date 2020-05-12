@@ -70,17 +70,31 @@
         <v-card-title>
           <span class="headline">Log in</span>
         </v-card-title>
+
         <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field label="Email*" required v-model="email"></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password*" type="password" required v-model="password"></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-form ref="loginForm">
+
+            <v-alert type="error" v-if="credentialError.error">
+              {{ credentialError.message }}
+            </v-alert>
+
+              <v-text-field
+                label="Email*"
+                required
+                v-model="email"
+                :rules="loginFormRules"
+              ></v-text-field>
+
+              <v-text-field
+                label="Password*"
+                type="password"
+                required
+                v-model="password"
+                :rules="loginFormRules"
+              ></v-text-field>
+
+          </v-form>
+
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
@@ -126,6 +140,9 @@ export default {
   },
   data (){
     return {
+      loginFormRules:[
+        value => value && value.length >= 4 || 'Minimum length is 4 characters'
+      ],
       myArticles:[],
       snackbar:false,
       successMessage:null,
@@ -134,6 +151,10 @@ export default {
       password:null,
       success: false,
       has_error: false,
+      credentialError:{
+        error: false,
+        message: null
+      },
       myToken: null,
       page:1,
       perPage:3
@@ -160,6 +181,12 @@ export default {
         .catch(error => console.log(error) );
     },
     login(){
+
+        // Check the form if it's not validate return null
+        if(!this.$refs.loginForm.validate()){
+          return null;
+        }
+
         let app = this;
         this.$auth.login ({
             data: {
@@ -169,7 +196,11 @@ export default {
             success: function () {
                 app.success = true;
             },
-            error: function () {
+            error: function (error) {
+                if(error.toString().indexOf("401") !== -1){
+                  app.credentialError.error = true;
+                  app.credentialError.message = "Your Email OR Password Is Wrong.";
+                }
                 app.has_error = true;
             },
             redirect: {name: 'dashboard'},
