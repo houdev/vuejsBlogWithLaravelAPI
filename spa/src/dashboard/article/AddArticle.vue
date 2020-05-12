@@ -7,28 +7,40 @@
       </v-btn>
     </template>
     <v-card align="center">
-      <v-row justify="center" align="center">
-        <v-col cols="10">
-          <v-text-field label="Title" v-model="title"></v-text-field>
-          <v-textarea
-          v-model="body"
-          outlined
-          name="bdoy"
-          label="Bdoy"
-          >
-          </v-textarea>
-        </v-col>
-        <v-col cols="10">
-          <v-btn color="success"
-          v-bind:disabled="title.length < 5" 
-          @click="AddArticle">
-            <v-icon>
-                mdi-plus
-            </v-icon>
-            Add Article
-          </v-btn>
-        </v-col>
-      </v-row>
+      <v-form ref="addArticleForm">
+        <v-container>
+          <v-row justify="center" align="center">
+            <v-col cols="10">
+              <v-text-field
+                label="Title"
+                v-model="title"
+                :rules="articleTitleRules"
+              >
+              </v-text-field>
+              <v-textarea
+                v-model="body"
+                outlined
+                name="bdoy"
+                label="Bdoy"
+                :rules="articleBodyRules"
+              >
+              </v-textarea>
+            </v-col>
+            <v-col cols="10">
+              <v-btn
+                color="success"
+                @click="AddArticle"
+              >
+                <v-icon>
+                  mdi-plus
+                </v-icon>
+                Add Article
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+
     </v-card>
   </v-dialog>
 </template>
@@ -44,28 +56,38 @@ export default {
             title: "",
             body: "",
             dialog:false,
+            articleTitleRules:[
+              title => title && title.length >= 10 || "The title most be more than 10 characters"
+            ],
+            articleBodyRules:[
+              body => body && body.length >= 20 || "The body most be more than 20 characters"
+            ],
         }
     },
     methods:{
-    AddArticle(){
+        AddArticle(){
 
-       Axios.post(`${apiUrl}/api/articles/add`,{
-         title: this.title,
-         body: this.body
-       })
-          .then( result => this.$emit('updateArticlesView', result.data.articles ) )
-          .catch( error => console.log(error) );
-       
-        //empty the fields after the add
-        this.title = "";
-        this.body = "";
+            // Check the form if it's not validate return null
+            if(!this.$refs.addArticleForm.validate()){
+            return null;
+            }
 
-        // close dialog
-        this.dialog = false;
+            Axios.post(`${apiUrl}/api/articles/add`,{
+             title: this.title,
+             body: this.body
+            })
+              .then( result => this.$emit('updateArticlesView', result.data.articles ) )
+              .catch( error => console.log(error) );
 
+            //empty the fields after the add
+            this.title = "";
+            this.body = "";
 
+            // close dialog
+            this.dialog = false;
+
+        },
     },
-    }
 }
 </script>
 
