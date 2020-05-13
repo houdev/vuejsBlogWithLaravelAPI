@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 
 class UsersController extends Controller
@@ -18,6 +19,18 @@ class UsersController extends Controller
 
         $adminRole  = \App\Role::where('name', 'admin')->first();
         $authorRole = \App\Role::where('name', 'author')->first();
+
+        $validateUser = Validator::make($request->all(),[
+            'name' => 'required|min:4',
+            'email' => 'required|email|unique:users|min:6',
+            'password' => 'required|min:8',
+        ]);
+
+        if($validateUser->fails()){
+            return response()->json([
+                'error' => 'The validation failed, please check the entered details'
+            ]);
+        }
 
         $newUser = \App\User::create([
             'name' => $request->name,
@@ -43,11 +56,23 @@ class UsersController extends Controller
     {
         JWTAuth::parseToken()->authenticate();
 
+        $validateUser = Validator::make($request->all(),[
+            'name' => 'required|min:4',
+            'email' => 'required|email|unique:users|min:6',
+            'pass' => 'required|min:8',
+        ]);
+
+        if($validateUser->fails()){
+            return response()->json([
+                'error' => 'The validation failed, please check the entered details'
+            ]);
+        }
+
         $updateUser = \App\User::find($id);
 
-        $updateUser->name      = $request->newName;
-        $updateUser->email     = $request->newEmail;
-        $updateUser->password  = bcrypt($request->newPass);
+        $updateUser->name      = $request->name;
+        $updateUser->email     = $request->email;
+        $updateUser->password  = bcrypt($request->pass);
 
         $updateUser->save();
 

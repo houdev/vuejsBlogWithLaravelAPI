@@ -107,9 +107,9 @@
                 let { newName, newEmail, newPass } = newMemberInfo;
 
                 axios.post(`${apiUrl}/api/user/update/${id}`, {
-                    newName,
-                    newEmail,
-                    newPass
+                    name: newName,
+                    email: newEmail,
+                    pass: newPass
                 })
                     .then( result => this.members = result.data )
                     .catch( error => console.log(error) );
