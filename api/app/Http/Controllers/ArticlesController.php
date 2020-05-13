@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Article;
 use JWTAuth;
 
@@ -36,6 +37,17 @@ class ArticlesController extends Controller
 
         $this->authorize('create', Article::class);
 
+        $validateArticle = Validator::make($request->all(),[
+            'title' => 'required|min:10',
+            'body' => 'required|min:20',
+        ]);
+
+        if($validateArticle->fails()){
+            return response()->json([
+                'error' => 'Adding new article failed!, please check the title & body length'
+            ]);
+        }
+
         $newArticle = new Article();
 
         $newArticle->title = $request->title;
@@ -57,6 +69,17 @@ class ArticlesController extends Controller
         $updateArticle = Article::find($id);
 
         $this->authorize('update', $updateArticle);
+
+        $validateArticle = Validator::make($request->all(),[
+            'title' => 'required|min:10',
+            'body' => 'required|min:20',
+        ]);
+
+        if($validateArticle->fails()){
+            return response()->json([
+                'error' => 'Updating the article failed!, please check the title & body length'
+            ]);
+        }
 
         $updateArticle->title = $request->title;
         $updateArticle->body  = $request->body;
