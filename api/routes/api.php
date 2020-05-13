@@ -39,6 +39,9 @@ Route::post('articles/update/{id}', 'ArticlesController@update');
 Route::post('articles/delete/{id}', 'ArticlesController@destroy');
 Route::post('articles/search/', 'ArticlesController@searchArticletitle');
 
+Route::get('comments', 'CommentsController@view');
+Route::post('comment/add', 'CommentsController@store');
+
 Route::get('/blog/statistics', function (){
     $users = \App\User::all();
     $articles = \App\Article::all();

@@ -14,7 +14,8 @@ class AddPictureToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('picture');
+            $table->string('picture')
+                ->default('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png');
         });
     }
 
