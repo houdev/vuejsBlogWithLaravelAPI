@@ -6,7 +6,7 @@
 
       <v-spacer></v-spacer>
 
-      <add-article @updateArticlesView="updateArticlesView" />
+      <add-article @articleAdded="getMyArticles" />
 
     </v-toolbar>
 
@@ -168,6 +168,11 @@
             }
         },
         methods:{
+            getMyArticles(){
+              axios.get(apiUrl+'/api/myarticles')
+                .then(result => this.myArticles = result.data)
+                .catch(error => console.log(error))
+            },
             editThisArticle(currentTitle, currentBody, currentArticleId){
 
               //Open The Edit Article Dialog
@@ -234,9 +239,7 @@
             },
         },
         created(){
-            axios.get(apiUrl+'/api/myarticles')
-                .then(result => this.myArticles = result.data)
-                .catch(error => console.log(error))
+            this.getMyArticles();
         },
     }
 </script>

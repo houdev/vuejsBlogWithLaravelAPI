@@ -9,7 +9,7 @@
 
       <v-spacer></v-spacer>
 
-      <add-article @updateArticlesView="updateArticlesView" />
+      <add-article @articleAdded="getArticles" />
 
     </v-toolbar>
     <v-row>
@@ -191,9 +191,6 @@
           this.pagination.current = res.data.current_page;
           this.pagination.total = res.data.last_page;
         })
-      },
-      updateArticlesView(newArticlesList){
-        this.articles = newArticlesList;
       },
       editThisArticle(currentTitle, currentBody, currentArticleId){
 

@@ -76,8 +76,10 @@ export default {
              title: this.title,
              body: this.body
             })
-              .then( result => this.$emit('updateArticlesView', result.data.articles ) )
               .catch( error => console.log(error) );
+
+            // Send 'articleAdded' event to refresh the articles list
+            this.$emit('articleAdded');
 
             //empty the fields after the add
             this.title = "";
