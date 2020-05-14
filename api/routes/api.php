@@ -41,6 +41,7 @@ Route::post('articles/search/', 'ArticlesController@searchArticletitle');
 
 Route::get('comments', 'CommentsController@view');
 Route::post('comment/add', 'CommentsController@store');
+Route::get('comment/article/{id}', 'CommentsController@showByArticleId');
 
 Route::get('/blog/statistics', function (){
     $users = \App\User::all();
