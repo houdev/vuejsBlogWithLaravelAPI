@@ -43,6 +43,8 @@ Route::get('comments', 'CommentsController@view');
 Route::post('comment/add', 'CommentsController@store');
 Route::get('comment/article/{id}', 'CommentsController@showByArticleId');
 
+Route::post('picture/add','UploadController@store');
+
 Route::get('/blog/statistics', function (){
     $users = \App\User::all();
     $articles = \App\Article::all();

@@ -83,6 +83,11 @@
             }
         },
         methods:{
+            getMembers(){
+              axios.post(apiUrl+'/api/users')
+                .then(result => this.members = result.data)
+                .catch(error => console.log(error))
+            },
             AddMember(newMemberInfo){
                 let { name, email, pass, role } = newMemberInfo;
 
@@ -104,15 +109,21 @@
                 this.memberDialog = false;
             },
             UpdateMember(id, newMemberInfo){
-                let { newName, newEmail, newPass } = newMemberInfo;
+                let { newName, newEmail, newPass, pictureData } = newMemberInfo;
 
                 axios.post(`${apiUrl}/api/user/update/${id}`, {
                     name: newName,
                     email: newEmail,
                     pass: newPass
                 })
-                    .then( result => this.members = result.data )
-                    .catch( error => console.log(error) );
+                    .catch(error => console.log(error));
+
+                //upload and update the picture
+                axios.post(`${apiUrl}/api/picture/add`, pictureData)
+                    .catch(error => console.log(error));
+
+                //Refresh members list
+                this.getMembers();
             },
         },
         computed:{
@@ -134,9 +145,7 @@
             }
         },
         created() {
-            axios.post(apiUrl+'/api/users')
-                .then(result => this.members = result.data)
-                .catch(error => console.log(error))
+            this.getMembers();
         }
     }
 </script>

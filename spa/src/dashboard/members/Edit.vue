@@ -33,7 +33,13 @@
           </v-avatar>
         </v-hover>
 
-        <input v-show="false" ref="inputUpload" type="file" />
+        <input
+          v-show="false"
+          ref="inputUpload"
+          @change="getPictureData($event)"
+          type="file"
+          accept="image/*"
+        />
       </template>
 
       <v-card-text>
@@ -81,7 +87,7 @@
 </template>
 
 <script>
-    export default {
+  export default {
         name: "EditMember",
         props:['memberId','username','email','memberPic'],
         data() {
@@ -90,6 +96,7 @@
                 newUsername: this.username,
                 newEmail: this.email,
                 newPass: null,
+                pictureData: null,
                 memberNameRules:[
                   name => name && name.length >= 4 || "The Name most be more than 4 characters"
                 ],
@@ -113,13 +120,20 @@
                 let newMemberInfo = {
                     newName: this.newUsername,
                     newEmail: this.newEmail,
-                    newPass: this.newPass
+                    newPass: this.newPass,
+                    pictureData: this.pictureData
                 }
                 this.$emit('UpdateMember', id, newMemberInfo);
 
                 //close dialog
                 this.dialog = false;
             },
+          getPictureData(event){
+
+            let data = new FormData();
+            data.append('picture', event.target.files[0]);
+            this.pictureData = data;
+          },
         },
     }
 </script>
