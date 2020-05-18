@@ -94,16 +94,20 @@
                 axios.post(`${apiUrl}/api/user/store`, {
                     name,
                     email,
-                    pass,
+                    password: pass,
                     role
                 })
-                    .then( result => this.members = result.data.data )
                     .catch( error => console.log(error) );
+
+                //Refresh members list
+                this.getMembers();
             },
             deleteMember(id){
                 axios.post(`${apiUrl}/api/user/delete/${id}`)
-                    .then( result => this.members = result.data )
                     .catch( error => console.log(error) );
+
+                //Refresh members list
+                this.getMembers();
 
                 //close the dialog after the delete
                 this.memberDialog = false;
