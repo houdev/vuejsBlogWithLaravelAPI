@@ -67,14 +67,9 @@
                   </v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-textarea
-                    v-model="currentBody"
-                    outlined
-                    name="body"
-                    label="Body"
-                    :rules="articleBodyRules"
-                  >
-                  </v-textarea>
+
+                  <ckeditor :editor="editor" v-model="currentBody"></ckeditor>
+
                 </v-col>
               </v-row>
             </v-container>
@@ -144,6 +139,7 @@
     import axios from "axios";
     import {apiUrl} from '@/variables.js'
     import AddArticle from "./AddArticle";
+    import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
     export default {
         name: "MyArticles",
@@ -165,6 +161,8 @@
                 currentBody: null,
                 showDeleteDialog: false,
                 deleteArticleID: null,
+                editor: ClassicEditor,
+
             }
         },
         methods:{

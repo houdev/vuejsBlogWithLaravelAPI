@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog v-model="dialog" max-width="85%">
     <template v-slot:activator="{ on }">
       <v-btn color="success" v-on="on" dark>
         <v-icon size="20px">mdi-plus</v-icon>
@@ -17,14 +17,9 @@
                 :rules="articleTitleRules"
               >
               </v-text-field>
-              <v-textarea
-                v-model="body"
-                outlined
-                name="bdoy"
-                label="Bdoy"
-                :rules="articleBodyRules"
-              >
-              </v-textarea>
+
+              <ckeditor :editor="editor" v-model="body"></ckeditor>
+
             </v-col>
             <v-col cols="10">
               <v-btn
@@ -48,6 +43,7 @@
 <script>
 import {apiUrl} from '@/variables.js'
 import Axios from 'axios';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
     name:'AddArticle',
@@ -62,6 +58,7 @@ export default {
             articleBodyRules:[
               body => body && body.length >= 20 || "The body most be more than 20 characters"
             ],
+            editor: ClassicEditor,
         }
     },
     methods:{
@@ -93,6 +90,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  .ck-content { height: 250px; }
 </style>

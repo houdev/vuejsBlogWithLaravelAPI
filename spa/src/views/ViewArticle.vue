@@ -34,8 +34,10 @@
 
                 <v-divider class="mx-4"></v-divider>
 
-                <p class="mt-5">{{ myArticle.body }}</p>
+                <span class="mt-5" v-html="myArticle.body"></span>
+
               </v-list-item-content>
+
             </v-list-item>
 
           </v-card>
