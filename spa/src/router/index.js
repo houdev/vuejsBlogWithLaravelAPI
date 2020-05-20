@@ -103,7 +103,7 @@ Vue.use(VueRouter)
   name: 'Login',
   component: Login,
   meta: {
-      auth: undefined
+      auth: false
   }
   },
 ]

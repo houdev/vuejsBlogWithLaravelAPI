@@ -35,6 +35,7 @@
                 required
                 v-model="password"
                 :rules="loginFormRules"
+                @keyup.enter="login"
               >
               </v-text-field>
 
