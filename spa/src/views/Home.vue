@@ -14,15 +14,18 @@
         >
           <v-icon>mdi-account-circle</v-icon>
         </v-btn>
+
+        <b class="mr-2" v-if="$auth.check()">{{ userInfo.userName }}</b>
+
         <v-menu v-if="$auth.check()"
           transition="slide-x-transition"
           bottom
           right
         >
           <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
-              <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
+            <v-avatar v-on="on" class="avatar" width="40px" height="40px">
+              <img :src="userInfo.userPicture" alt="Member-picture" />
+            </v-avatar>
           </template>
 
           <v-list>
@@ -163,9 +166,23 @@ export default {
         current:1,
         total:0
       },
+      userInfo:{
+        userName: null,
+        userPicture: null,
+      }
     }
   },
   methods:{
+    getCurrentUserInfo(){
+
+      //If the user not logged in then return null
+      if(!this.$auth.check()) return null;
+
+      this.$auth.fetch().then( res => {
+          this.userInfo.userName = res.data.data.name;
+          this.userInfo.userPicture = res.data.data.picture;
+      });
+    },
     getArticles(){
       axios.get(apiUrl+'/api/articles?page=' + this.pagination.current
       ).then( res => {
@@ -230,8 +247,11 @@ export default {
     },
   },
   created(){
-    //get Articles
+    //Get Articles
     this.getArticles();
+
+    //Get Current User Info
+    this.getCurrentUserInfo();
   },
 };
 </script>

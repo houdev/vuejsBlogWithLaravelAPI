@@ -26,7 +26,7 @@
     <v-toolbar-title>Simple Blog</v-toolbar-title>
     <v-spacer></v-spacer>
 
-    {{ userName }}
+    <b class="mr-2">{{ userInfo.userName }}</b>
 
     <v-menu
       transition="slide-x-transition"
@@ -34,9 +34,9 @@
       right
     >
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
+        <v-avatar v-on="on" class="avatar" width="40px" height="40px">
+          <img :src="userInfo.userPicture" alt="Member-picture" />
+        </v-avatar>
       </template>
 
       <v-list>
@@ -104,7 +104,10 @@ export default {
     return {
     drawer: null,
     logoutDialog: false,
-    userName: null,
+      userInfo:{
+        userName: null,
+        userPicture: null,
+      },
     dashbordItems:[
         { title: 'Dashboard', icon: 'mdi-view-dashboard', to:'/dashboard/dashboard', display: this.$auth.check() },
         { title: 'My Profile', icon: 'mdi-account', to:'/dashboard/myProfile', display: this.$auth.check() },
@@ -115,6 +118,16 @@ export default {
     }
   },
   methods:{
+    getCurrentUserInfo(){
+
+      //If the user not logged in then return null
+        if(!this.$auth.check()) return null;
+
+        this.$auth.fetch().then( res => {
+          this.userInfo.userName = res.data.data.name;
+          this.userInfo.userPicture = res.data.data.picture;
+        });
+    },
     logout(){
       let app = this;
       this.$auth
@@ -133,11 +146,9 @@ export default {
       }
   },
   mounted() {
-    let app = this
-      this.$auth.fetch()
-          .then((res) => {
-            app.userName = res.data.data.name
-          })
+
+      //Get Current User Info
+      this.getCurrentUserInfo();
   }
 
 };
