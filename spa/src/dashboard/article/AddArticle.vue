@@ -20,6 +20,13 @@
 
               <ckeditor :editor="editor" v-model="body"></ckeditor>
 
+              <v-file-input
+                show-size
+                label="upload image"
+                v-model="articleImage"
+              >
+              </v-file-input>
+
             </v-col>
             <v-col cols="10">
               <v-btn
@@ -51,6 +58,7 @@ export default {
         return {
             title: "",
             body: "",
+            articleImage: null,
             dialog:false,
             articleTitleRules:[
               title => title && title.length >= 10 || "The title most be more than 10 characters"
@@ -66,13 +74,19 @@ export default {
 
             // Check the form if it's not validate return null
             if(!this.$refs.addArticleForm.validate()){
-            return null;
+                return null;
             }
 
-            Axios.post(`${apiUrl}/api/articles/add`,{
-             title: this.title,
-             body: this.body
-            })
+            let title = this.title;
+            let body = this.body;
+            let image = this.articleImage;
+
+            let imageData = new FormData();
+            imageData.append('title', title);
+            imageData.append('body', body);
+            imageData.append('image', image);
+
+            Axios.post(`${apiUrl}/api/articles/add`, imageData)
               .catch( error => console.log(error) );
 
             // Send 'articleAdded' event to refresh the articles list
@@ -81,6 +95,7 @@ export default {
             //empty the fields after the add
             this.title = "";
             this.body = "";
+            this.articleImage = null;
 
             // close dialog
             this.dialog = false;

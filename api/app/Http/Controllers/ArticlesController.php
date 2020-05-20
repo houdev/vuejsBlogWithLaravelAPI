@@ -48,10 +48,18 @@ class ArticlesController extends Controller
             ]);
         }
 
+        $image = $request->file('image');
+        $storePath = public_path() . '/articles/images/';
+        $imageName = $image->getClientOriginalName();
+
+        $image->move($storePath, $imageName);
+        $imageURL = url('/articles/images/' . $imageName);
+
         $newArticle = new Article();
 
         $newArticle->title = $request->title;
         $newArticle->body = $request->body;
+        $newArticle->image = $imageURL;
         $newArticle->user_id = $CurrentUser->id;
         $newArticle->save();
 
