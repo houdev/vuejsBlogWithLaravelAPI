@@ -414,7 +414,7 @@ class ComposerStaticInitca0eeaacf7a098de184786012b0815d1
 
     public static $classMap = array (
         'App\\Article' => __DIR__ . '/../..' . '/app/Article.php',
-        'App\\Comments' => __DIR__ . '/../..' . '/app/Comments.php',
+        'App\\Comment' => __DIR__ . '/../..' . '/app/Comment.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\ArticlesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticlesController.php',
@@ -424,8 +424,10 @@ class ComposerStaticInitca0eeaacf7a098de184786012b0815d1
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\CommentsController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommentsController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\UploadController' => __DIR__ . '/../..' . '/app/Http/Controllers/UploadController.php',
         'App\\Http\\Controllers\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AccessAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/AccessAdmin.php',
