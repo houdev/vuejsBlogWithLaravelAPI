@@ -1,2 +1,4 @@
 /api/.env
-gitignore
+/api/public/users/pictures/*.png
+/api/public/users/pictures/*.jpg
+.gitignore
