@@ -33,7 +33,7 @@
                     fab
                     small
                     color="primary"
-                    @click="editThisArticle(article.title, article.body, article.id)">
+                    @click="editThisArticle(article.title, article.body, article.id, article.image)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn fab small color="red" dark @click="deleteThisArticle(article.id)">
@@ -85,7 +85,22 @@
             </v-container>
           </v-form>
         </v-card-text>
-
+        <v-row>
+          <v-col cols="6" sm="6" class="pa-5">
+            <h3>Image:</h3>
+          </v-col>
+          <v-col cols="6" sm="6" class="pa-5">
+            <v-img :src="articleImage" />
+          </v-col>
+          <v-col cols="12">
+            <v-file-input
+              show-size
+              v-model="newArticleImage"
+              label="Upload new image"
+            >
+            </v-file-input>
+          </v-col>
+        </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
 
@@ -178,6 +193,8 @@
         searchForTitle:null,
         articlesCount: 0,
         editor: ClassicEditor,
+        articleImage: null,
+        newArticleImage: null,
       }
     },
     methods:{
@@ -189,7 +206,7 @@
           this.pagination.total = res.data.last_page;
         })
       },
-      editThisArticle(currentTitle, currentBody, currentArticleId){
+      editThisArticle(currentTitle, currentBody, currentArticleId, articleImage){
 
         //Open The Edit Article Dialog
         this.showEditDialog = true;
@@ -198,6 +215,7 @@
         this.currentTitle = currentTitle;
         this.currentBody = currentBody;
         this.currentArticleId = currentArticleId;
+        this.articleImage = articleImage;
       },
       updateThisArticle(){
 
@@ -210,12 +228,16 @@
         let id = this.currentArticleId;
         let title = this.currentTitle;
         let body = this.currentBody;
+        let image = this.newArticleImage;
+
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('title', title);
+        formData.append('body', body);
+        formData.append('image', image);
 
         //Send Update Request To The API
-        axios.post(`${apiUrl}/api/articles/update/${id}`, {
-          title,
-          body
-        })
+        axios.post(`${apiUrl}/api/articles/update/${id}`, formData)
           .then( result => this.articles = result.data.data )
           .catch( error => console.log(error) );
 
