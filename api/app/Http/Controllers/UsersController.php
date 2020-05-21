@@ -10,7 +10,7 @@ class UsersController extends Controller
 {
     public function view()
     {
-        return \App\User::all();
+        return \App\User::orderBy('id', 'asc')->paginate(3);
     }
 
     public function store(Request $request)

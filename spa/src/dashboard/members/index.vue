@@ -11,7 +11,7 @@
       />
     </v-toolbar>
     <v-row>
-      <v-col v-for="(member, key) in filteredMemberList" :key="key" cols="12" md="3">
+      <v-col v-for="(member, key) in members" :key="key" cols="12" md="3">
         <v-card class="pt-5">
           <v-row justify="center">
             <v-avatar class="avatar" width="70px" height="70px">
@@ -54,8 +54,10 @@
         </v-card>
       </v-col>
       <v-pagination
-              v-model="page"
-              :length="Math.ceil(members.length/perPage)"
+        class="mt-5 mb-5"
+        v-model="pagination.current"
+        :length="pagination.total"
+        @input="getMembers"
       ></v-pagination>
     </v-row>
   </v-container>
@@ -78,14 +80,20 @@
                 members:[],
                 memberDialog:{},
                 searchName:null,
-                page:1,
-                perPage:3
+                pagination:{
+                  current:1,
+                  total:0
+                },
             }
         },
         methods:{
             getMembers(){
-              axios.post(apiUrl+'/api/users')
-                .then(result => this.members = result.data)
+              axios.post(apiUrl+'/api/users?page=' + this.pagination.current)
+                .then(result => {
+                  this.members = result.data.data
+                  this.pagination.current = result.data.current_page;
+                  this.pagination.total = result.data.last_page;
+                })
                 .catch(error => console.log(error))
             },
             AddMember(newMemberInfo){
@@ -129,24 +137,6 @@
                 //Refresh members list
                 this.getMembers();
             },
-        },
-        computed:{
-            filteredMemberList(){
-                var members = this.members;
-                var searchName = this.searchName;
-
-                if(!searchName){
-                  return members.slice((this.page - 1)* this.perPage, this.page* this.perPage);
-                }
-                var searchMemberName = searchName.trim().toLowerCase();
-                members = members.filter(function(member){
-                    if(member.name.toLowerCase().indexOf(searchMemberName) !== -1){
-                      return member;
-                    }
-                })
-
-              return members.slice((this.page - 1)* this.perPage, this.page* this.perPage);
-            }
         },
         created() {
             this.getMembers();
