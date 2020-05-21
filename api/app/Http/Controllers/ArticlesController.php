@@ -120,6 +120,24 @@ class ArticlesController extends Controller
         return Article::orderBy('created_at', 'desc')->paginate($this->paginteNumber);
     }
 
+    public function bulkDestroy(Request $request)
+    {
+        JWTAuth::parseToken()->authenticate();
+
+        //Get articles ids
+        $data = $request->json()->all();
+        $articlesIds = $data['articlesIds'];
+
+        foreach ($articlesIds as $k => $v ){
+            $article = Article::find($v);
+            $article->delete();
+        }
+
+        return response()->json([
+            "message" => "Articles has been deleted successfully."
+        ]);
+    }
+
     public function searchArticletitle(Request $request)
     {
         $searchTitle = $request->articleTitle;

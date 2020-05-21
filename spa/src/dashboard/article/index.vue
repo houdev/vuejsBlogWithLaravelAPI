@@ -22,6 +22,18 @@
                 <th class="text-left">Title</th>
                 <th class="text-left">Last Update</th>
                 <th class="text-left">Actions</th>
+                <th class="text-left" >
+                  <v-btn
+                    small
+                    color="red"
+                    dark
+                    v-if="selectedArticlesForDelete.length > 0"
+                    @click="bulkDeleteFired"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                    Delete ({{ selectedArticlesForDelete.length }})
+                  </v-btn>
+                </th>
               </tr>
               </thead>
               <tbody>
@@ -31,14 +43,17 @@
                 <td>
                   <v-btn
                     fab
-                    small
+                    x-small
                     color="primary"
                     @click="editThisArticle(article.title, article.body, article.id, article.image)">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn fab small color="red" dark @click="deleteThisArticle(article.id)">
+                  <v-btn fab x-small color="red" dark @click="deleteThisArticle(article.id)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
+                </td>
+                <td>
+                  <v-checkbox v-model="selectedArticlesForDelete" :value="article.id"></v-checkbox>
                 </td>
               </tr>
               </tbody>
@@ -195,6 +210,8 @@
         editor: ClassicEditor,
         articleImage: null,
         newArticleImage: null,
+        selectedArticlesForDelete: [],
+        bulkActionDeleteFired: false,
       }
     },
     methods:{
@@ -256,6 +273,26 @@
         this.showDeleteDialog = true;
       },
       deleteArticle(){
+        if(this.bulkActionDeleteFired === true){
+          let articlesIds = this.selectedArticlesForDelete;
+
+          axios.post(`${apiUrl}/api/articles/bulk/delete`, {
+            articlesIds
+          })
+            .then(res => console.log(JSON.stringify(res.data.message)))
+            .catch(error => console.log(error));
+
+          //Refresh articles list
+          this.getArticles();
+
+          //Close The Delete Article Dialog
+          this.showDeleteDialog = false;
+
+          //Empty the articles ids' array to
+          this.selectedArticlesForDelete = [];
+
+          return null;
+        }
         //Get The Article's Id To Delete The Article
         let id = this.deleteArticleID;
 
@@ -282,6 +319,10 @@
             this.pagination.total = result.data.last_page;
           })
           .catch( error => console.log(error) );
+      },
+      bulkDeleteFired(){
+        this.bulkActionDeleteFired = true;
+        this.showDeleteDialog = true;
       },
     },
     created(){
