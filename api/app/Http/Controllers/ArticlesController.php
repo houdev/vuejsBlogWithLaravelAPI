@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Article;
 use JWTAuth;
 
@@ -15,7 +18,28 @@ class ArticlesController extends Controller
 
     public function view()
     {
-        return Article::orderBy('created_at', 'desc')->paginate($this->paginteNumber);
+        $articles = Article::orderBy('created_at', 'desc')->get();
+
+        $articlesList = [];
+
+        //Add the username to the articles list
+        foreach ($articles as $article){
+
+            $newArticlesList = [
+                'id'            => $article->id,
+                'user_id'       => $article->user->id,
+                'username'      => $article->user->name,
+                'title'         => $article->title,
+                'body'          => $article->body,
+                'image'         => $article->image,
+                'created_at'    => $article->created_at,
+                'updated_at'    => $article->updated_at
+            ];
+
+            $articlesList[] = $newArticlesList ;
+        }
+
+        return $this->paginate($articlesList, $perPage = $this->paginteNumber, $page = null, $options = []);
     }
 
     public function showById($id)
@@ -147,5 +171,14 @@ class ArticlesController extends Controller
                             ->paginate($this->paginteNumber);
 
         return $articles;
+    }
+
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

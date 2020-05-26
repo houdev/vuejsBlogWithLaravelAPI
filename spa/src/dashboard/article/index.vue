@@ -20,6 +20,7 @@
               <thead>
               <tr>
                 <th class="text-left">Title</th>
+                <th class="text-left">Posted By</th>
                 <th class="text-left">Last Update</th>
                 <th class="text-left">Actions</th>
                 <th class="text-left" >
@@ -39,6 +40,7 @@
               <tbody>
               <tr v-for="article in articles" :key="article.id">
                 <td>{{ article.title }}</td>
+                <td>{{ article.username }}</td>
                 <td>{{ article.updated_at }}</td>
                 <td>
                   <v-btn
