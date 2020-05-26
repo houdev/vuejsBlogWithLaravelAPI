@@ -91,4 +91,15 @@ class UsersController extends Controller
         //Return new users list after the delete
         return \App\User::all();
     }
+
+    public function searchUsername(Request $request)
+    {
+        $username = $request->username;
+
+        $user = \App\User::where('name', 'LIKE', "%{$username}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(3);
+
+        return $user;
+    }
 }

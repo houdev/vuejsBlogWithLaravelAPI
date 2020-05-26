@@ -4,7 +4,14 @@
       <v-toolbar-title>Members <span class="blue--text">{{ members.length }}</span></v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-icon>mdi-magnify</v-icon>
-      <v-text-field label="Search" v-model="searchName" hide-details single-line></v-text-field>
+      <v-text-field
+        label="Search"
+        v-model="searchForMember"
+        @change="searchForMemberFn"
+        hide-details
+        single-line
+      >
+      </v-text-field>
       <v-spacer></v-spacer>
       <add-member
         @AddMember="AddMember"
@@ -79,7 +86,7 @@
             return{
                 members:[],
                 memberDialog:{},
-                searchName:null,
+                searchForMember: null,
                 pagination:{
                   current:1,
                   total:0
@@ -137,6 +144,19 @@
                 //Refresh members list
                 this.getMembers();
             },
+          searchForMemberFn(){
+            let searchMember = this.searchForMember;
+
+            axios.post(`${apiUrl}/api/user/search`, {
+              username:searchMember
+            })
+              .then( result => {
+                this.members = result.data.data;
+                this.pagination.current = result.data.current_page;
+                this.pagination.total = result.data.last_page;
+              })
+              .catch( error => console.log(error) );
+          },
         },
         created() {
             this.getMembers();
