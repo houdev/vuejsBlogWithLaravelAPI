@@ -70,6 +70,21 @@ class UsersController extends Controller
 
         $updateUser = \App\User::find($id);
 
+        // Check if the user want to change the picture or not
+        if($request->hasFile('picture')){
+
+            // If the user choose to upload new picture then upload it and update it
+
+            $picture = $request->file('picture');
+            $storePath = public_path() . '/users/pictures/';
+            $pictureName = 'user_' . $id . '.' . $picture->getClientOriginalExtension();
+
+            $picture->move($storePath, $pictureName);
+            $pictureURL = url('/users/pictures/' . $pictureName);
+
+            $updateUser->picture = $pictureURL;
+        }
+
         $updateUser->name      = $request->name;
         $updateUser->email     = $request->email;
         $updateUser->password  = bcrypt($request->pass);

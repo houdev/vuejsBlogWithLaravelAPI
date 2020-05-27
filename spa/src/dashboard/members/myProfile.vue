@@ -8,6 +8,27 @@
         <v-form ref="editMyProfileForm">
           <v-container>
             <v-row>
+              <v-row justify="center">
+
+                <v-avatar
+                  class="avatar"
+                  width="100px"
+                  height="100px"
+                  cursor="pointer"
+                  @click="$refs.EditAvatar.click()"
+                >
+                  <img :src="avatar" alt="John" />
+                </v-avatar>
+                  <input
+                    v-show="false"
+                    :disabled="disableEdit"
+                    ref="EditAvatar"
+                    @change="getPictureData($event)"
+                    type="file"
+                    accept="image/*"
+
+                  />
+              </v-row>
               <v-col cols="12">
                 <v-alert type="error" v-if="passwordIsRequired.error">
                   {{ passwordIsRequired.message }}
@@ -86,6 +107,8 @@
         newUsername: null,
         newEmail: null,
         newPass: null,
+        avatar: null,
+        newAvatar: null,
         edit: true,
         save: false,
         disableEdit:true
@@ -104,27 +127,39 @@
           return this.passwordIsRequired.message = "The password is required";
         }
 
-        axios.post(`${apiUrl}/api/user/update/${id}`, {
-          newName: this.newUsername,
-          newEmail: this.newEmail,
-          newPass: this.newPass
-        })
+        let newUserInfo = new FormData();
+        newUserInfo.append('name', this.newUsername);
+        newUserInfo.append('email', this.newEmail);
+        newUserInfo.append('pass', this.newPass);
+        newUserInfo.append('picture', this.newAvatar);
+
+        axios.post(`${apiUrl}/api/user/update/${id}`, newUserInfo)
           .catch( error => console.log(error) );
 
         //Disable The Edit Ability
         this.edit = true;
         this.save = false;
         this.disableEdit = true;
+
+        //Refresh the information
+        this.getCurrentUserInfo();
+      },
+      getPictureData(event){
+        this.newAvatar = event.target.files[0];
+      },
+      getCurrentUserInfo(){
+        axios.post(apiUrl+'/api/me')
+          .then(result => {
+            this.newUsername = result.data.data.name;
+            this.newEmail = result.data.data.email;
+            this.memberId = result.data.data.userId;
+            this.avatar = result.data.data.picture;
+          })
+          .catch(error => console.log(error));
       },
     },
     mounted() {
-      axios.post(apiUrl+'/api/me')
-        .then(result => {
-          this.newUsername = result.data.data.name;
-          this.newEmail = result.data.data.email;
-          this.memberId = result.data.data.userId;
-        })
-        .catch(error => console.log(error))
+      this.getCurrentUserInfo();
     }
   }
 </script>
