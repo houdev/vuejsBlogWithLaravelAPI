@@ -34,7 +34,7 @@ composer install
 ```
 cp .env.example .env
 ```
-5. Edit `.env` file with appropriate credential for your database server - these parameter(`DB_USERNAME`, `DB_PASSWORD`).
+5. Edit `.env` file with appropriate credential for your database server - these parameter(`DB_DATABASE`,`DB_USERNAME`, `DB_PASSWORD`).
 6. Create a database named `small_blog`
 7. Migrate your database
 ```
@@ -44,8 +44,16 @@ php artisan migrate
 ```
 php artisan key:generate
 ```
-9. Run the server
+9. Set the `jwt-auth` secret by running the following command:
+ ```
+php artisan jwt:secret
+```
+10. Add the admin, author users and dummy data by running the following command:
+```
+php artisan db:seed
+```
+12. Run the server
 ```
 php artisan serve
 ```
-10. Now go to `http://localhost:8080` from your browser. 
+13. Now go to `http://localhost:8080` from your browser. 
