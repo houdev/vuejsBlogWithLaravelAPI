@@ -15,7 +15,7 @@ class AddImageToArticlesTable extends Migration
     {
         Schema::table('articles', function (Blueprint $table) {
             $table->string('image')
-                  ->default('https://via.placeholder.com/150.png');
+                  ->default(url('/articles/images/default.jpg'));
         });
     }
 
